@@ -1,0 +1,191 @@
+using UnityEngine;
+using UnityEngine.XR;
+using Valve.VR;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Vive
+{
+    public class ViveCam : MonoBehaviour
+    {
+        [SerializeField]
+        private bool _enableScreen = true;
+
+        [SerializeField]
+        private bool _undistorted = true;
+
+        [SerializeField]
+        private bool _cropped = true;
+
+        [SerializeField]
+        private Transform _viveFrontCameraView;
+
+        //両目左右の切り替え用
+        [SerializeField]
+        private bool left = true;
+
+        [SerializeField]
+        private Material _material;
+
+        [SerializeField]
+        private float distance;
+
+        //HMDの位置座標格納用
+        private Vector3 headPosition;
+        //HMDの回転座標格納用（クォータニオン）
+        private Quaternion headRotationQ;
+        //HMDの回転座標格納用（オイラー角）
+        private Vector3 headRotation;
+
+        private List<XRNodeState> nodeStates = new List<XRNodeState>();
+
+
+        #region ### MonoBehaviour ###
+        private void OnEnable()
+        {
+            EnableSteamVRCamera();
+        }
+
+        private void OnDisable()
+        {
+            DisableSteamVRCamera();
+        }
+
+        private void Update()
+        {
+            if (_enableScreen)
+            {
+                UpdateCameraTexture();
+            }
+        }
+        #endregion ### MonoBehaviour ###
+
+        private void UpdateCameraTexture()
+        {
+            var source = SteamVR_TrackedCamera.Source(_undistorted);
+            var texture = source.texture;
+
+            if (texture == null)
+            {
+                return;
+            }
+
+            _material.mainTexture = texture;
+
+            float aspect = (float)texture.width / texture.height;
+
+            if (_cropped)
+            {
+                var bounds = source.frameBounds;
+                _material.mainTextureOffset = new Vector2(bounds.uMin, bounds.vMin);
+
+                float du = bounds.uMax - bounds.uMin;
+                float dv = bounds.vMax - bounds.vMin;
+
+                if (left) //左目
+                {
+                    _material.mainTextureScale = new Vector2(du, dv / 2);
+                }
+                else //右目
+                {
+                    _material.mainTextureScale = new Vector2(du, -dv / 2);
+                }
+
+                aspect *= Mathf.Abs(du / dv);
+            }
+            else
+            {
+                _material.mainTextureOffset = Vector2.zero;
+                _material.mainTextureScale = new Vector2(1f, -1f);
+            }
+
+            if (source.hasTracking)
+            {
+                const float ProjectionZ = 1.0f;
+                Vector2 ProjectionScale = GetProjectionScale(source);
+                Vector2 LocalScale = new Vector2(4.0f * ProjectionZ / ProjectionScale.x, 4.0f * ProjectionZ / ProjectionScale.y);
+
+                if (left)
+                {
+                    _viveFrontCameraView.localScale = new Vector3(LocalScale.x, LocalScale.y / 2, 1.0f);
+                }
+                else
+                {
+                    _viveFrontCameraView.localScale = new Vector3(LocalScale.x, -LocalScale.y / 2, 1.0f);
+                }
+
+                var trackedCameraTransform = source.transform;
+
+                UpdateFrontCameraTransform(trackedCameraTransform, ProjectionZ);
+            }
+
+        }
+
+        private void UpdateFrontCameraTransform(SteamVR_Utils.RigidTransform sourceTransform, float ProjectionZ)
+        {
+            InputTracking.GetNodeStates(nodeStates);
+
+            var headState = nodeStates.FirstOrDefault(node => node.nodeType == XRNode.Head);
+            //位置座標を取得
+            headPosition = InputTracking.GetLocalPosition(XRNode.Head);
+            //headPosition = headState.TryGetPosition(out headPosition);
+            //回転座標をクォータニオンで値を受け取る
+            headRotationQ = InputTracking.GetLocalRotation(XRNode.Head);
+            //取得した値をクォータニオン → オイラー角に変換
+            headRotation = headRotationQ.eulerAngles;
+
+            //HMDとカメラの３軸ごとの距離
+            float xDistance = Mathf.Abs(_viveFrontCameraView.position.x - headPosition.x);
+            float yDistance = Mathf.Abs(_viveFrontCameraView.position.y - headPosition.y);
+            float zDistance = Mathf.Abs(_viveFrontCameraView.position.z - headPosition.z);
+
+            //
+            float x = distance * Mathf.Sin(headRotation.y * Mathf.PI / 180f);
+            float y = -distance * Mathf.Sin(headRotation.x * Mathf.PI / 180f);
+            float z = distance * Mathf.Cos(headRotation.y * Mathf.PI / 180f); // Mathf.Sqrt(Mathf.Pow(zDistance, 2.0f) + Mathf.Pow(xDistance, 2.0f))
+
+            //Debug.Log("HMD yRotation:" + headRotation.y);
+
+            _viveFrontCameraView.localPosition = sourceTransform.TransformPoint(new Vector3(0, 0, ProjectionZ));
+            _viveFrontCameraView.localRotation = sourceTransform.rot;
+        }
+
+        private void EnableSteamVRCamera()
+        {
+            var source = SteamVR_TrackedCamera.Source(_undistorted);
+            source.Acquire();
+
+            // カメラが認識されていなかったらdisableにする
+            if (!source.hasCamera)
+            {
+                enabled = false;
+            }
+        }
+
+        private void DisableSteamVRCamera()
+        {
+            _material.mainTexture = null;
+
+            var source = SteamVR_TrackedCamera.Source(_undistorted);
+            source.Release();
+        }
+
+        private static Vector2 GetProjectionScale(SteamVR_TrackedCamera.VideoStreamTexture source)
+        {
+            CVRTrackedCamera trackedCamera = OpenVR.TrackedCamera;
+
+            if (trackedCamera == null) return Vector2.one;
+
+            const float near = 1.0f;
+            const float far = 100.0f;
+            HmdMatrix44_t ProjectionMatrix = new HmdMatrix44_t();
+
+            if (trackedCamera.GetCameraProjection(source.deviceIndex, source.frameId, source.frameType, near, far, ref ProjectionMatrix) != EVRTrackedCameraError.None)
+            {
+                return Vector2.one;
+            }
+
+            return new Vector2(ProjectionMatrix.m0, ProjectionMatrix.m5);
+        }
+    }
+}
