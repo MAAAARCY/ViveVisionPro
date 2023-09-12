@@ -95,6 +95,7 @@ namespace Vive
 
         public Vector3 GetHMDForward()
         {
+            //Debug.Log(HMDCameraTransform.forward);
             return HMDCameraTransform.forward;
         }
     }

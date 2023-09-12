@@ -171,6 +171,7 @@ namespace MouseController
 
         private void moveCursorByHMDRotation()
         {
+            Debug.Log(VivePro.GetHMDPosition());
             Vector2 HMDForwardUVPosition = EyePosition.GetHMDForwardUVPosition(new Ray(VivePro.GetHMDPosition(), VivePro.GetHMDForward()));
             MouseCursorPositioning.setCursorPositionByHMDForward(HMDForwardUVPosition);
         }
