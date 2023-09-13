@@ -6,6 +6,7 @@ using Valve.VR;
 
 public class pos : MonoBehaviour
 {
+    /*
     //HMDの位置座標格納用
     private Vector3 HMDPosition;
     //HMDの回転座標格納用（クォータニオン）
@@ -31,7 +32,7 @@ public class pos : MonoBehaviour
 
     void Start()
     {
-        /*
+        
         InputDevice device = InputDevices.GetDeviceAtXRNode(XRNode.Head);
 
         Debug.Log(device.name);
@@ -41,7 +42,7 @@ public class pos : MonoBehaviour
             //if (device.TryGetFeatureValue(CommonUsages.eyesData, out eyes))
             //    return true;
         }
-        */
+        
     }
 
     void Update()
@@ -96,4 +97,5 @@ public class pos : MonoBehaviour
             Debug.Log(string.Format("name:{0}, role:{1}, manufacturer:{2}, characteristics:{3}, serialNumber:{4},", device.name, device.role, device.manufacturer, device.characteristics, device.serialNumber));
         }
     }
+    */
 }
