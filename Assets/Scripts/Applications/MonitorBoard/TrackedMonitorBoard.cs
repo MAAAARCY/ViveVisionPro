@@ -6,7 +6,7 @@ namespace Applications.MonitorBoard
     public class TrackedMonitorBoard : MonoBehaviour
     {
         [SerializeField] 
-        private Transform MonitorBoard;
+        private Transform MonitorBoardTransform;
 
         [SerializeField] 
         private ViveProInfo VivePro;
@@ -25,6 +25,14 @@ namespace Applications.MonitorBoard
         [SerializeField]
         private bool _trackFollowing = true;
 
+        private void Start()
+        {
+            MonitorBoardInfo.MonitorBoardPosition = MonitorBoardPosition;
+            MonitorBoardInfo.MonitorBoardRotation = MonitorBoardRotation;
+            MonitorBoardInfo.TrackFollowing = _trackFollowing;
+            MonitorBoardInfo.Distance = _distance;
+        }
+
         private void Update()
         {
             UpdateMonitorBoardaTransform();
@@ -32,27 +40,29 @@ namespace Applications.MonitorBoard
 
         private void UpdateMonitorBoardaTransform()
         {
-            if (_trackFollowing)
+            if (MonitorBoardInfo.TrackFollowing)
             {
                 HMDRotation = VivePro.GetHMDRotation();
 
-                float x = _distance * Mathf.Sin(HMDRotation.y * Mathf.PI / 180f);
-                float y = -_distance * Mathf.Sin(HMDRotation.x * Mathf.PI / 180f);
-                float z = _distance * Mathf.Cos(HMDRotation.y * Mathf.PI / 180f);
-                
+                float x = MonitorBoardInfo.Distance * Mathf.Sin(HMDRotation.y * Mathf.PI / 180f);
+                float y = -MonitorBoardInfo.Distance * Mathf.Sin(HMDRotation.x * Mathf.PI / 180f);
+                float z = MonitorBoardInfo.Distance * Mathf.Cos(HMDRotation.y * Mathf.PI / 180f);
 
-                MonitorBoard.position = new Vector3(x, y, z);
-                MonitorBoard.rotation = Quaternion.Euler(HMDRotation.x, HMDRotation.y, HMDRotation.z);
+                //transformを変更する部分
+                MonitorBoardTransform.position = new Vector3(x, y, z);
+                MonitorBoardTransform.rotation = Quaternion.Euler(HMDRotation.x, HMDRotation.y, HMDRotation.z);
 
-                MonitorBoardPosition = MonitorBoard.position;
-                MonitorBoardRotation = MonitorBoard.rotation.eulerAngles;
+                //MonitorBoardInfoにpositionとrotationを格納し、他のプログラムから座標を取れるようにするため
+                MonitorBoardInfo.MonitorBoardPosition = MonitorBoardTransform.position;
+                MonitorBoardInfo.MonitorBoardRotation = MonitorBoardTransform.rotation.eulerAngles;
             }
             else
             {
-                MonitorBoard.position = MonitorBoardPosition;
-                MonitorBoard.rotation = Quaternion.Euler(MonitorBoardRotation);
+                MonitorBoardTransform.position = MonitorBoardInfo.MonitorBoardPosition;
+                MonitorBoardTransform.rotation = Quaternion.Euler(MonitorBoardInfo.MonitorBoardRotation);
             }
 
+            MonitorBoardInfo.TrackFollowing = _trackFollowing; //Debug用の代入なので完成したら消す
         }
     }
 }
