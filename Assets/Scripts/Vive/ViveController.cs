@@ -79,7 +79,7 @@ namespace Vive
         {
             get
             {
-                Debug.Log("x:" + LeftTrackPadAxisDelta.x + ", y:" + LeftTrackPadAxisDelta.y);
+                //Debug.Log("x:" + LeftTrackPadAxisDelta.x + ", y:" + LeftTrackPadAxisDelta.y);
                 return LeftTrackPadAxisDelta;
             }
         }

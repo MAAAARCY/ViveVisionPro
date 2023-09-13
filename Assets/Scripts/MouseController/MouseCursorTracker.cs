@@ -48,12 +48,6 @@ namespace MouseController
         private ViveLaserPointer RightLaserPointer;
 
         [SerializeField]
-        private ViveController LeftController;
-
-        [SerializeField]
-        private ViveController RightController;
-
-        [SerializeField]
         private EyePositionInfo EyePosition;
 
         [SerializeField]
@@ -71,8 +65,6 @@ namespace MouseController
         private Vector2 CursorPosition;
 
         private Vector3 DebugFocusPosition;
-
-        //private bool cursorClicked = true;
 
         private void Update()
         {
@@ -95,7 +87,7 @@ namespace MouseController
 
         private void moveCursorByViveController()
         {
-            if (useLeftHand && LeftController != null)
+            if (useLeftHand && VivePro.GetLeftControllerState())
             {
                 if (LeftLaserPointer.GetLaserPointerUVPosition() == Vector2.zero)
                 {
@@ -106,7 +98,7 @@ namespace MouseController
                 MouseClicker.clickOnce(0, ViveController.InteractLeftUIState);
             }
 
-            if (!(useLeftHand) && RightController != null)
+            if (!(useLeftHand) && VivePro.GetRightControllerState())
             {
                 if (RightLaserPointer.GetLaserPointerUVPosition() == Vector2.zero)
                 {
@@ -115,17 +107,15 @@ namespace MouseController
 
                 MouseCursorPositioning.setCursorPositionByLaserPointer(RightLaserPointer.GetLaserPointerUVPosition());
                 MouseClicker.clickOnce(0, ViveController.InteractRightUIState);
-
-                //CursorPosition = new Vector2((float)System.Windows.Forms.Cursor.Position.X, (float)System.Windows.Forms.Cursor.Position.X);
             }
         }
 
         private void moveCursorByTrackPad()
         {
-            if (useLeftHand && LeftController != null)
+            if (useLeftHand && VivePro.GetLeftControllerState() != null)
             {
-                MouseClicker.clickOnce(0, ViveController.InteractLeftUIState);
-
+                //MouseClicker.clickOnce(0, ViveController.InteractLeftUIState);
+                
                 if (ViveController.LeftTrackPadTouchDelta == Vector2.zero)
                 {
                     return;
@@ -134,9 +124,9 @@ namespace MouseController
                 MouseCursorPositioning.setCursorPositionByTrackPad(ViveController.LeftTrackPadTouchDelta, 10.0f);
             }
 
-            if (!(useLeftHand) && RightController != null)
+            if (!(useLeftHand) && VivePro.GetRightControllerState())
             {
-                MouseClicker.clickOnce(0, ViveController.InteractRightUIState);
+                //MouseClicker.clickOnce(0, ViveController.InteractRightUIState);
 
                 if (ViveController.RightTrackPadTouchDelta == Vector2.zero)
                 {

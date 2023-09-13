@@ -3,7 +3,7 @@ using Vive;
 
 namespace Applications.MonitorBoard
 {
-    public class TrackedMonitorBoard : MonoBehaviour
+    public class MonitorTracker: MonoBehaviour
     {
         [SerializeField] 
         private Transform MonitorBoardTransform;

@@ -284,6 +284,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HMDCameraTransform: {fileID: 691092313}
+  LeftController: {fileID: 1462274259}
+  RightController: {fileID: 2071853292}
 --- !u!4 &230726274
 Transform:
   m_ObjectHideFlags: 0
@@ -356,12 +358,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee00e98e3d0e0e54884274b10eacca54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MonitorBoard: {fileID: 151149650}
+  MonitorBoardTransform: {fileID: 151149650}
   VivePro: {fileID: 230726273}
   MonitorBoardPosition: {x: 0, y: 0, z: 15}
   MonitorBoardRotation: {x: 0, y: 0, z: 0}
   _distance: 10
-  _trackFollowing: 1
+  _trackFollowing: 0
 --- !u!4 &529896870 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 420908, guid: c1a23db58368ac247a0d3bba71e83b96, type: 3}
@@ -551,11 +553,11 @@ PrefabInstance:
     - target: {fileID: 2348914, guid: c1a23db58368ac247a0d3bba71e83b96, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1617768680}
+      objectReference: {fileID: 879120760}
     - target: {fileID: 3380982, guid: c1a23db58368ac247a0d3bba71e83b96, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 1018717478}
+      objectReference: {fileID: 1209732443}
     - target: {fileID: 4998185278047638108, guid: c1a23db58368ac247a0d3bba71e83b96, type: 3}
       propertyPath: m_Depth
       value: 1
@@ -912,7 +914,147 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3138176846596184247, guid: 1041cd64197609540b111ad788805542, type: 3}
   m_PrefabInstance: {fileID: 1522338425}
   m_PrefabAsset: {fileID: 0}
---- !u!43 &1018717478
+--- !u!21 &879120760
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+--- !u!1 &1063656805
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1063656806}
+  m_Layer: 0
+  m_Name: HandsTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1063656806
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063656805}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.21487519, y: -0.21056679, z: 0.20504045}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 864146425}
+  - {fileID: 72625336}
+  - {fileID: 1516111975}
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1149755793
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1149755794}
+  - component: {fileID: 1149755796}
+  - component: {fileID: 1149755795}
+  m_Layer: 0
+  m_Name: MouseCursorTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1149755794
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149755793}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1149755795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149755793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe7654ff3055bb0408b1ce56e179657a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Tracker: 0
+  SphereTransform: {fileID: 0}
+  LeftLaserPointer: {fileID: 1462274258}
+  RightLaserPointer: {fileID: 2071853291}
+  EyePosition: {fileID: 1336121559}
+  VivePro: {fileID: 230726273}
+  useEyeTracking: 1
+  useEyeFocus: 0
+  useLeftHand: 1
+--- !u!114 &1149755796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149755793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47613961cde0a8b4aa4f79219b7e523c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnableEye: 1
+  EnableEyeDataCallback: 0
+  EnableEyeVersion: 0
+--- !u!43 &1209732443
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1076,111 +1218,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &1063656805
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1063656806}
-  m_Layer: 0
-  m_Name: HandsTracker
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1063656806
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1063656805}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.21487519, y: -0.21056679, z: 0.20504045}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 864146425}
-  - {fileID: 72625336}
-  - {fileID: 1516111975}
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1149755793
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1149755794}
-  - component: {fileID: 1149755796}
-  - component: {fileID: 1149755795}
-  m_Layer: 0
-  m_Name: MouseCursorTracker
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1149755794
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1149755793}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1149755795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1149755793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe7654ff3055bb0408b1ce56e179657a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Tracker: 0
-  SphereTransform: {fileID: 0}
-  LeftLaserPointer: {fileID: 1462274258}
-  RightLaserPointer: {fileID: 2071853291}
-  LeftController: {fileID: 1462274259}
-  RightController: {fileID: 2071853292}
-  EyePosition: {fileID: 1336121559}
-  VivePro: {fileID: 230726273}
-  useEyeTracking: 1
-  useEyeFocus: 0
-  useLeftHand: 1
---- !u!114 &1149755796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1149755793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47613961cde0a8b4aa4f79219b7e523c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnableEye: 1
-  EnableEyeDataCallback: 0
-  EnableEyeVersion: 0
 --- !u!1001 &1306634767
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2377,6 +2414,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1063656806}
     m_Modifications:
+    - target: {fileID: 1276715513614782159, guid: d1c00f89ef60a3446ad9eef2d361e2a1, type: 3}
+      propertyPath: _mainCamera
+      value: 
+      objectReference: {fileID: 644485446}
     - target: {fileID: 5270838610523157746, guid: d1c00f89ef60a3446ad9eef2d361e2a1, type: 3}
       propertyPath: m_Name
       value: XR Leap Provider Manager
@@ -2439,43 +2480,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1c00f89ef60a3446ad9eef2d361e2a1, type: 3}
---- !u!21 &1617768680
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1 &1865692703 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5c59bbac8b5d2104f985970fd1dd49fb, type: 3}
