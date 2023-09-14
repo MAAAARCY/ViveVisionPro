@@ -121,7 +121,7 @@ namespace MouseController
                     return;
                 }
 
-                MouseCursorPositioning.setCursorPositionByTrackPad(ViveController.LeftTrackPadTouchDelta, 10.0f);
+                MouseCursorPositioning.setCursorPositionByTrackPad(ViveController.LeftTrackPadTouchPosition, 10.0f);
             }
 
             if (!(useLeftHand) && VivePro.GetRightControllerState())
