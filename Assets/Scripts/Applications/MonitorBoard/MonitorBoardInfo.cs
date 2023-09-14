@@ -8,6 +8,7 @@ namespace Applications.MonitorBoard
         private static Vector3 monitorBoardRotation;
         private static bool trackFollowing;
         private static float distance;
+        private static MonitorVariousTracker tracker;
 
         public static Vector3 MonitorBoardPosition
         {
@@ -54,6 +55,19 @@ namespace Applications.MonitorBoard
             get
             {
                 return distance;
+            }
+        }
+
+        public static MonitorVariousTracker Tracker
+
+        {
+            set
+            {
+                tracker = value;
+            }
+            get
+            {
+                return tracker;
             }
         }
     }

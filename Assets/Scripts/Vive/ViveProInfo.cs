@@ -52,22 +52,24 @@ namespace Vive
 
             //LeftController（左コントローラ）の情報を一時保管--------------------
             //位置座標を取得
-            //LeftControllerPosition = InputTracking.GetLocalPosition(XRNode.LeftHand);
+            LeftControllerPosition = InputTracking.GetLocalPosition(XRNode.LeftHand);
             //回転座標をクォータニオンで値を受け取る
-            //LeftControllerRotationQ = InputTracking.GetLocalRotation(XRNode.LeftHand);
+            LeftControllerRotationQ = InputTracking.GetLocalRotation(XRNode.LeftHand);
             //取得した値をクォータニオン → オイラー角に変換
-            //LeftControllerRotation = LeftControllerRotationQ.eulerAngles;
+            LeftControllerRotation = LeftControllerRotationQ.eulerAngles;
             //--------------------------------------------------------------
 
 
             //RightController（右コントローラ）の情報を一時保管--------------------
             //位置座標を取得
-            //RightControllerPosition = InputTracking.GetLocalPosition(XRNode.RightHand);
+            RightControllerPosition = InputTracking.GetLocalPosition(XRNode.RightHand);
             //回転座標をクォータニオンで値を受け取る
-            //RightControllerRotationQ = InputTracking.GetLocalRotation(XRNode.RightHand);
+            RightControllerRotationQ = InputTracking.GetLocalRotation(XRNode.RightHand);
             //取得した値をクォータニオン → オイラー角に変換
-            //RightControllerRotation = RightControllerRotationQ.eulerAngles;
+            RightControllerRotation = RightControllerRotationQ.eulerAngles;
             //--------------------------------------------------------------
+
+            //Debug.Log(RightControllerRotation);
         }
 
         public Vector3 GetHMDPosition()
@@ -82,22 +84,22 @@ namespace Vive
 
         public Vector3 GetLeftControllerPosition()
         {
-            return HMDPosition;
+            return LeftControllerPosition;
         }
 
         public Vector3 GetLeftControllerRotation()
         {
-            return HMDRotation;
+            return LeftControllerRotation;
         }
 
         public Vector3 GetRightControllerPosition()
         {
-            return HMDPosition;
+            return RightControllerPosition;
         }
 
         public Vector3 GetRightControllerRotation()
         {
-            return HMDRotation;
+            return RightControllerRotation;
         }
 
         public Vector3 GetHMDForward()

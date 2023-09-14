@@ -48,7 +48,7 @@ namespace MouseController
         private ViveLaserPointer RightLaserPointer;
 
         [SerializeField]
-        private EyePositionInfo EyePosition;
+        private RayPositionInfo EyePosition;
 
         [SerializeField]
         private ViveProInfo VivePro;
