@@ -32,7 +32,7 @@ namespace Applications.MonitorBoard
         [SerializeField]
         private MonitorVariousTracker _tracker;
 
-        private Vector3 LaserPointPosition;
+        private Vector3 LaserPointerPositionDelta;
         private Vector3 HMDRotation;
         private Vector3 LaserPointerRotation;
 
@@ -88,10 +88,9 @@ namespace Applications.MonitorBoard
                 if (LeftLaserPointer.GetLaserPointerPosition() == Vector3.zero) return;
 
                 LaserPointerRotation = VivePro.GetLeftControllerRotation();
+                LaserPointerPositionDelta = VivePro.GetLeftControllerPositionDelta();
 
-                //LaserPointPosition = LeftLaserPointer.GetLaserPointerPosition();
-
-                MonitorBoardTransform.position = PolarCoordinates(LaserPointerRotation, MonitorBoardInfo.Distance);
+                MonitorBoardTransform.position = PolarCoordinates(LaserPointerRotation, MonitorBoardInfo.Distance+LaserPointerPositionDelta.z);
                 MonitorBoardTransform.rotation = Quaternion.Euler(LaserPointerRotation.x, LaserPointerRotation.y, 0f);
 
                 MonitorBoardInfo.MonitorBoardPosition = MonitorBoardTransform.position;
@@ -103,8 +102,9 @@ namespace Applications.MonitorBoard
                 if (RightLaserPointer.GetLaserPointerPosition() == Vector3.zero) return;
 
                 LaserPointerRotation = VivePro.GetRightControllerRotation();
+                LaserPointerPositionDelta = VivePro.GetRightControllerPositionDelta();
 
-                //LaserPointPosition = RightLaserPointer.GetLaserPointerPosition();
+                MonitorBoardInfo.Distance += (20f * LaserPointerPositionDelta.z);
 
                 MonitorBoardTransform.position = PolarCoordinates(LaserPointerRotation, MonitorBoardInfo.Distance);
                 MonitorBoardTransform.rotation = Quaternion.Euler(LaserPointerRotation.x, LaserPointerRotation.y, 0f);
