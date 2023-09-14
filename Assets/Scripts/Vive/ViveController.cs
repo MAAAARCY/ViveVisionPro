@@ -17,7 +17,8 @@ namespace Vive
         //private SteamVR_Action_Boolean GrabG = SteamVR_Actions.default_GrabGrip;
         private SteamVR_Action_Boolean GrabG = SteamVR_Input.GetBooleanAction("GrabGrip");
         //åãâ ÇÃäiî[ópBooleanå^ä÷êîgrapgrip
-        private Boolean grapgrip;
+        private static Boolean grabLeftGrip;
+        private static Boolean grabRightGrip;
 
         //TrackPad
         private SteamVR_Action_Vector2 TrackPad = SteamVR_Input.GetVector2Action("TrackPad");
@@ -35,16 +36,17 @@ namespace Vive
             RightTrackPadAxis = TrackPad.GetLastAxis(SteamVR_Input_Sources.RightHand);
             RightTrackPadAxisDelta = TrackPad.GetLastAxisDelta(SteamVR_Input_Sources.RightHand);
 
+            grabLeftGrip = GrabG.GetState(SteamVR_Input_Sources.LeftHand);
+            grabRightGrip = GrabG.GetState(SteamVR_Input_Sources.RightHand);
+
             if (interactLeftUI || interactRightUI)
             {
                 Debug.Log("InteractUI(Left):" + interactLeftUI + ", InteractUI(Right):" + interactRightUI);
             }
 
-            grapgrip = GrabG.GetState(SteamVR_Input_Sources.LeftHand);
-
-            if (grapgrip)
+            if (grabLeftGrip || grabRightGrip)
             {
-                Debug.Log("GrabGrip");
+                Debug.Log("leftGrabGrip:" + grabLeftGrip + ", rightGrabGrip:" + grabRightGrip);
             }
 
             //Debug.Log("x:" + LeftTrackPadAxis.x + ", y:" + LeftTrackPadAxis.y);
@@ -67,6 +69,22 @@ namespace Vive
             }
         }
 
+        public static Boolean GrabLeftGrip
+        {
+            get
+            {
+                return grabLeftGrip;
+            }
+        }
+
+        public static Boolean GrabRightGrip
+        {
+            get
+            {
+                return grabRightGrip;
+            }
+        }
+
         public static Vector2 LeftTrackPadTouchPosition
         {
             get
@@ -79,7 +97,7 @@ namespace Vive
         {
             get
             {
-                Debug.Log("x:" + LeftTrackPadAxisDelta.x + ", y:" + LeftTrackPadAxisDelta.y);
+                //Debug.Log("x:" + LeftTrackPadAxisDelta.x + ", y:" + LeftTrackPadAxisDelta.y);
                 return LeftTrackPadAxisDelta;
             }
         }

@@ -9,7 +9,7 @@ using MouseController;
 
 namespace RaySettings
 {
-    public class EyePositionInfo : MonoBehaviour
+    public class RayPositionInfo : MonoBehaviour
     {
         /*
         [SerializeField]

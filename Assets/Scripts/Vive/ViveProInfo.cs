@@ -13,21 +13,28 @@ namespace Vive
         private Vector3 HMDRotation;
 
         //左コントローラの位置座標格納用
-        private Vector3 LeftHandPosition;
+        private Vector3 LeftControllerPosition;
         //左コントローラの回転座標格納用（クォータニオン）
-        private Quaternion LeftHandRotationQ;
+        private Quaternion LeftControllerRotationQ;
         //左コントローラの回転座標格納用
-        private Vector3 LeftHandRotation;
+        private Vector3 LeftControllerRotation;
 
         //右コントローラの位置座標格納用
-        private Vector3 RightHandPosition;
+        private Vector3 RightControllerPosition;
         //右コントローラの回転座標格納用（クォータニオン）
-        private Quaternion RightHandRotationQ;
+        private Quaternion RightControllerRotationQ;
         //右コントローラの回転座標格納用
-        private Vector3 RightHandRotation;
+        private Vector3 RightControllerRotation;
 
         [SerializeField]
         private Transform HMDCameraTransform;
+
+        [SerializeField]
+        private ViveController LeftController;
+
+        [SerializeField]
+        private ViveController RightController;
+
 
         private void Update()
         {
@@ -43,24 +50,26 @@ namespace Vive
             //--------------------------------------------------------------
 
 
-            //LeftHand（左コントローラ）の情報を一時保管--------------------
+            //LeftController（左コントローラ）の情報を一時保管--------------------
             //位置座標を取得
-            //LeftHandPosition = InputTracking.GetLocalPosition(XRNode.LeftHand);
+            LeftControllerPosition = InputTracking.GetLocalPosition(XRNode.LeftHand);
             //回転座標をクォータニオンで値を受け取る
-            //LeftHandRotationQ = InputTracking.GetLocalRotation(XRNode.LeftHand);
+            LeftControllerRotationQ = InputTracking.GetLocalRotation(XRNode.LeftHand);
             //取得した値をクォータニオン → オイラー角に変換
-            //LeftHandRotation = LeftHandRotationQ.eulerAngles;
+            LeftControllerRotation = LeftControllerRotationQ.eulerAngles;
             //--------------------------------------------------------------
 
 
-            //RightHand（右コントローラ）の情報を一時保管--------------------
+            //RightController（右コントローラ）の情報を一時保管--------------------
             //位置座標を取得
-            //RightHandPosition = InputTracking.GetLocalPosition(XRNode.RightHand);
+            RightControllerPosition = InputTracking.GetLocalPosition(XRNode.RightHand);
             //回転座標をクォータニオンで値を受け取る
-            //RightHandRotationQ = InputTracking.GetLocalRotation(XRNode.RightHand);
+            RightControllerRotationQ = InputTracking.GetLocalRotation(XRNode.RightHand);
             //取得した値をクォータニオン → オイラー角に変換
-            //RightHandRotation = RightHandRotationQ.eulerAngles;
+            RightControllerRotation = RightControllerRotationQ.eulerAngles;
             //--------------------------------------------------------------
+
+            //Debug.Log(RightControllerRotation);
         }
 
         public Vector3 GetHMDPosition()
@@ -73,30 +82,49 @@ namespace Vive
             return HMDRotation;
         }
 
-        public Vector3 GetLeftHandPosition()
+        public Vector3 GetLeftControllerPosition()
         {
-            return HMDPosition;
+            return LeftControllerPosition;
         }
 
-        public Vector3 GetLeftHandRotation()
+        public Vector3 GetLeftControllerRotation()
         {
-            return HMDRotation;
+            return LeftControllerRotation;
         }
 
-        public Vector3 GetRightHandPosition()
+        public Vector3 GetRightControllerPosition()
         {
-            return HMDPosition;
+            return RightControllerPosition;
         }
 
-        public Vector3 GetRightHandRotation()
+        public Vector3 GetRightControllerRotation()
         {
-            return HMDRotation;
+            return RightControllerRotation;
         }
 
         public Vector3 GetHMDForward()
         {
-            //Debug.Log(HMDCameraTransform.forward);
             return HMDCameraTransform.forward;
+        }
+
+        public bool GetLeftControllerState()
+        {
+            if (LeftController != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool GetRightControllerState()
+        {
+            if (RightController != null)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 

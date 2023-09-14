@@ -124,6 +124,20 @@ namespace Vive
             }
         }
 
+        public Vector3 GetLaserPointerPosition()
+        {
+            if (pointerInCollider)
+            {
+                Debug.Log("X:" + hit.point.x + ", Y:" + hit.point.y + ", Z:" + hit.point.z);
+                return hit.point;
+            }
+            else
+            {
+                Debug.Log("hoge");
+                return Vector3.zero;
+            }
+        }
+
         private void Update()
         {
             if (!isActive)
