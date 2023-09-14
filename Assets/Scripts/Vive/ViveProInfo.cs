@@ -18,6 +18,8 @@ namespace Vive
         private Quaternion LeftControllerRotationQ;
         //左コントローラの回転座標格納用
         private Vector3 LeftControllerRotation;
+        //左コントローラの位置座標の差分格納用
+        private Vector3 LeftControllerPositionDelta;
 
         //右コントローラの位置座標格納用
         private Vector3 RightControllerPosition;
@@ -25,6 +27,8 @@ namespace Vive
         private Quaternion RightControllerRotationQ;
         //右コントローラの回転座標格納用
         private Vector3 RightControllerRotation;
+        //右コントローラの位置座標の差分格納用
+        private Vector3 RightControllerPositionDelta;
 
         [SerializeField]
         private Transform HMDCameraTransform;
@@ -35,6 +39,10 @@ namespace Vive
         [SerializeField]
         private ViveController RightController;
 
+        [SerializeField]
+        private bool useLeftHand;
+
+        private float delta;
 
         private void Update()
         {
@@ -71,7 +79,13 @@ namespace Vive
 
             //Debug.Log(RightControllerRotation);
         }
-
+        
+        private void LateUpdate()
+        {
+            LeftControllerPositionDelta = LeftControllerPosition;
+            RightControllerPositionDelta = RightControllerPosition;
+        }
+        
         public Vector3 GetHMDPosition()
         {
             return HMDPosition;
@@ -109,7 +123,7 @@ namespace Vive
 
         public bool GetLeftControllerState()
         {
-            if (LeftController != null)
+            if (LeftController != null && useLeftHand)
             {
                 return true;
             }
@@ -119,13 +133,40 @@ namespace Vive
 
         public bool GetRightControllerState()
         {
-            if (RightController != null)
+            if (RightController != null && !(useLeftHand))
             {
                 return true;
             }
 
             return false;
         }
+
+        public Vector3 GetLeftControllerPositionDelta()
+        {
+            Vector3 Delta = new Vector3();
+            Delta = LeftControllerPosition - LeftControllerPositionDelta;
+
+            return Delta;
+        }
+
+        public Vector3 GetRightControllerPositionDelta()
+        {
+            Vector3 Delta = new Vector3();
+            Delta = RightControllerPosition - RightControllerPositionDelta;
+
+            return Delta;
+        }
+        /*
+        public void SetLeftHand(bool flag)
+        {
+            useLeftHand = flag;
+        }
+
+        public bool GetLeftHandState()
+        {
+            return useLeftHand;
+        }
+        */
     }
 
 }
