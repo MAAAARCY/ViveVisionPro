@@ -35,6 +35,8 @@ namespace Vive
         [SerializeField]
         private ViveController RightController;
 
+        [SerializeField]
+        private bool useLeftHand;
 
         private void Update()
         {
@@ -109,7 +111,7 @@ namespace Vive
 
         public bool GetLeftControllerState()
         {
-            if (LeftController != null)
+            if (LeftController != null && useLeftHand)
             {
                 return true;
             }
@@ -119,13 +121,24 @@ namespace Vive
 
         public bool GetRightControllerState()
         {
-            if (RightController != null)
+            if (RightController != null && !(useLeftHand))
             {
                 return true;
             }
 
             return false;
         }
+        /*
+        public void SetLeftHand(bool flag)
+        {
+            useLeftHand = flag;
+        }
+
+        public bool GetLeftHandState()
+        {
+            return useLeftHand;
+        }
+        */
     }
 
 }

@@ -22,8 +22,6 @@ namespace Applications.MonitorBoard
 
         [SerializeField]
         private ViveLaserPointer RightLaserPointer;
-
-        private Vector3 HMDRotation;
         
         [SerializeField]
         private float _distance;
@@ -35,6 +33,8 @@ namespace Applications.MonitorBoard
         private MonitorVariousTracker _tracker;
 
         private Vector3 LaserPointPosition;
+        private Vector3 HMDRotation;
+        private Vector3 LaserPointerRotation;
 
         private void Start()
         {
@@ -87,16 +87,40 @@ namespace Applications.MonitorBoard
             {
                 if (LeftLaserPointer.GetLaserPointerPosition() == Vector3.zero) return;
 
-                LaserPointPosition = LeftLaserPointer.GetLaserPointerPosition();
+                LaserPointerRotation = VivePro.GetLeftControllerRotation();
 
-                MonitorBoardTransform.position = LaserPointPosition;
+                //LaserPointPosition = LeftLaserPointer.GetLaserPointerPosition();
+
+                MonitorBoardTransform.position = PolarCoordinates(LaserPointerRotation, MonitorBoardInfo.Distance);
+                MonitorBoardTransform.rotation = Quaternion.Euler(LaserPointerRotation.x, LaserPointerRotation.y, 0f);
 
                 MonitorBoardInfo.MonitorBoardPosition = MonitorBoardTransform.position;
-
-                //Debug.Log("RIGHT");
-
-                //Debug.Log(VivePro.GetRightControllerRotation());
+                MonitorBoardInfo.MonitorBoardRotation = MonitorBoardTransform.rotation.eulerAngles;
             }
+
+            if (ViveController.GrabRightGrip && VivePro.GetRightControllerState())
+            {
+                if (RightLaserPointer.GetLaserPointerPosition() == Vector3.zero) return;
+
+                LaserPointerRotation = VivePro.GetRightControllerRotation();
+
+                //LaserPointPosition = RightLaserPointer.GetLaserPointerPosition();
+
+                MonitorBoardTransform.position = PolarCoordinates(LaserPointerRotation, MonitorBoardInfo.Distance);
+                MonitorBoardTransform.rotation = Quaternion.Euler(LaserPointerRotation.x, LaserPointerRotation.y, 0f);
+
+                MonitorBoardInfo.MonitorBoardPosition = MonitorBoardTransform.position;
+                MonitorBoardInfo.MonitorBoardRotation = MonitorBoardTransform.rotation.eulerAngles;
+            }
+        }
+
+        private Vector3 PolarCoordinates(Vector3 Rotation, float distance)
+        {
+            float x = distance * Mathf.Sin(Rotation.y * Mathf.PI / 180f);
+            float y = -distance * Mathf.Sin(Rotation.x * Mathf.PI / 180f);
+            float z = distance * Mathf.Cos(Rotation.y * Mathf.PI / 180f);
+
+            return new Vector3(x, y, z);
         }
     }
 }
