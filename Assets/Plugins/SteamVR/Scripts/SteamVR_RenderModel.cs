@@ -622,7 +622,12 @@ namespace Valve.VR
 
                 t.gameObject.AddComponent<MeshFilter>().mesh = model.mesh;
                 MeshRenderer newRenderer = t.gameObject.AddComponent<MeshRenderer>();
-                newRenderer.sharedMaterial = model.material;
+                
+                if (renderModelName == "{htc}vr_tracker_vive_1_0")
+                {
+                    newRenderer.sharedMaterial = model.material;
+                }
+                
                 meshRenderers.Add(newRenderer);
             }
 
