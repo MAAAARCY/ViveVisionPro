@@ -33,5 +33,6 @@ public class TestTracker : MonoBehaviour
                     "T1R:" + Tracker1Rotation.x + ", " + Tracker1Rotation.y + ", " + Tracker1Rotation.z);
 
         KeyboardTransform.position = Tracker1Posision;
+        KeyboardTransform.rotation = Quaternion.Euler(Tracker1Rotation);
     }
 }
