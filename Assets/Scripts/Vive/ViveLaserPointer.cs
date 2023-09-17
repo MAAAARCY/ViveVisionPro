@@ -163,13 +163,11 @@ namespace Vive
 
         private void UpdateRayCast()
         {
-            Debug.Log(isActive);
             if (!isActive)
             {
                 isActive = true;
                 pointer.SetActive(true);
                 this.transform.GetChild(0).gameObject.SetActive(true);
-                Debug.Log(pointer.activeSelf);
             }
 
             float dist = 100f;
