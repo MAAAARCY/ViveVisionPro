@@ -99,6 +99,10 @@
             {
                "output" : "/actions/default/in/pose",
                "path" : "/user/keyboard/pose/raw"
+            },
+            {
+               "output" : "none",
+               "path" : "/user/keyboard/pose/front"
             }
          ],
          "skeleton" : [
