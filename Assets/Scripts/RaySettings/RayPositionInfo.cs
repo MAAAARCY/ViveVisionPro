@@ -156,8 +156,16 @@ namespace RaySettings
                 XParams = MouseCursorPositioning.setCursorPositionsByGazeRay(XParams, hit, headRotation, true);
                 YParams = MouseCursorPositioning.setCursorPositionsByGazeRay(YParams, hit, headRotation, false);
 
-                return new Vector2(float.Parse(XParams.Average().ToString("F0")), float.Parse(YParams.Average().ToString("F0")));
-
+                if (XParams.Count < 10)
+                {
+                    return new Vector2(float.Parse(XParams.Average().ToString("F0")), float.Parse(YParams.Average().ToString("F0")));
+                }
+                else
+                { 
+                    //Debug.Log(XParams.Count);
+                    //return new Vector2(float.Parse(XParams.Dequeue().ToString("F0")), float.Parse(YParams.Dequeue().ToString("F0")));
+                    return new Vector2(float.Parse(MouseCursorPositioning.GetPositionParamsMedian(XParams).ToString("F0")), float.Parse(MouseCursorPositioning.GetPositionParamsMedian(YParams).ToString("F0")));
+                }
             }
             else
             {

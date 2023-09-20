@@ -93,10 +93,32 @@ namespace MouseController
 
             if (positionParams.Count == 101)
             {
+                //positionParams.Enqueue(GetMedian(positionParams));
                 positionParams.Dequeue();
             }
 
             return positionParams;
+        }
+
+        public static float GetPositionParamsMedian(Queue<float> positionParams)
+        {
+            List<float> positionList = new List<float>();
+
+            foreach(float num in positionParams)
+            {
+                positionList.Add(num);
+            }
+
+            positionList.Sort();
+
+            if (positionList.Count%2 == 0)
+            {
+                return (positionList[positionList.Count / 2 - 1] + positionList[positionList.Count / 2]) / 2;
+            }
+            else
+            {
+                return positionList[positionList.Count / 2];
+            }
         }
     }
 }
