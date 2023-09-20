@@ -32,7 +32,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - VIVETracker
   - VirtualMonitor
   - VIVEController
   - DualCamera(Right)

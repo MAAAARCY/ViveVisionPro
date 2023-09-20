@@ -40,7 +40,7 @@ namespace Vive
         private ViveController RightController;
 
         [SerializeField]
-        private bool useLeftHand;
+        private bool trackingCursorByLeftHand;
 
         private float delta;
 
@@ -123,7 +123,7 @@ namespace Vive
 
         public bool GetLeftControllerState()
         {
-            if (LeftController != null && useLeftHand)
+            if (LeftController != null && trackingCursorByLeftHand)
             {
                 return true;
             }
@@ -133,7 +133,7 @@ namespace Vive
 
         public bool GetRightControllerState()
         {
-            if (RightController != null && !(useLeftHand))
+            if (RightController != null && !(trackingCursorByLeftHand))
             {
                 return true;
             }

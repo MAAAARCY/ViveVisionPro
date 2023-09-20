@@ -20,6 +20,9 @@ namespace Vive
         [SerializeField]
         private Transform _viveFrontCameraView;
 
+        [SerializeField]
+        private MeshFilter _cameraViewMeshFilter;
+
         //óºñ⁄ç∂âEÇÃêÿÇËë÷Ç¶óp
         [SerializeField]
         private bool left = true;
@@ -84,11 +87,11 @@ namespace Vive
 
                 if (left) //ç∂ñ⁄
                 {
-                    _material.mainTextureScale = new Vector2(du, dv / 2);
+                    _material.mainTextureScale = new Vector2(du, -0.35f); //dv/2
                 }
                 else //âEñ⁄
                 {
-                    _material.mainTextureScale = new Vector2(du, -dv / 2);
+                    _material.mainTextureScale = new Vector2(du, 0.35f);//-dv/2
                 }
 
                 aspect *= Mathf.Abs(du / dv);
@@ -102,17 +105,52 @@ namespace Vive
             if (source.hasTracking)
             {
                 const float ProjectionZ = 1.0f;
-                Vector2 ProjectionScale = GetProjectionScale(source);
-                Vector2 LocalScale = new Vector2(4.0f * ProjectionZ / ProjectionScale.x, 4.0f * ProjectionZ / ProjectionScale.y);
+                
+                //Vector2 LocalScale = new Vector2(4.0f * ProjectionZ / ProjectionScale.x, 4.0f * ProjectionZ / ProjectionScale.y);
+                //Debug.Log(LocalScale);
+                if (_cameraViewMeshFilter.mesh.ToString().Contains("Quad"))
+                {
+                    Vector2 ProjectionScale = GetProjectionScale(source);
+                    Vector2 LocalScale = new Vector2(4.0f * ProjectionZ / ProjectionScale.x, 4.0f * ProjectionZ / ProjectionScale.y);
 
-                if (left)
-                {
-                    _viveFrontCameraView.localScale = new Vector3(LocalScale.x, LocalScale.y / 2, 1.0f);
+                    if (left)
+                    {
+                        _viveFrontCameraView.localScale = new Vector3(LocalScale.x, LocalScale.y / 2, 1.0f);
+                    }
+                    else
+                    {
+                        _viveFrontCameraView.localScale = new Vector3(LocalScale.x, -LocalScale.y / 2, 1.0f);
+                    }
                 }
-                else
+                if (_cameraViewMeshFilter.mesh.ToString().Contains("Plane"))
                 {
-                    _viveFrontCameraView.localScale = new Vector3(LocalScale.x, -LocalScale.y / 2, 1.0f);
+                    Vector2 ProjectionScale = GetProjectionScale(source);
+                    Vector2 LocalScale = new Vector2(0.4f * ProjectionZ / ProjectionScale.x, 0.4f * ProjectionZ / ProjectionScale.y);
+
+                    if (left)
+                    {
+                        _viveFrontCameraView.localScale = new Vector3(LocalScale.x, 1.0f, LocalScale.y / 2);
+                    }
+                    else
+                    {
+                        _viveFrontCameraView.localScale = new Vector3(LocalScale.x, 1.0f, -LocalScale.y / 2);
+                    }
                 }
+                if (_cameraViewMeshFilter.mesh.ToString().Contains("Sphere"))
+                {
+                    Vector2 ProjectionScale = GetProjectionScale(source);
+                    Vector2 LocalScale = new Vector2(1.0f * ProjectionZ / ProjectionScale.x, 1.0f * ProjectionZ / ProjectionScale.y);
+
+                    if (left)
+                    {
+                        _viveFrontCameraView.localScale = new Vector3(LocalScale.x, 1.0f, LocalScale.y);
+                    }
+                    else
+                    {
+                        _viveFrontCameraView.localScale = new Vector3(LocalScale.x, 1.0f, -LocalScale.y);
+                    }
+                }
+
 
                 var trackedCameraTransform = source.transform;
 
@@ -146,8 +184,28 @@ namespace Vive
 
             //Debug.Log("HMD yRotation:" + headRotation.y);
 
-            _viveFrontCameraView.localPosition = sourceTransform.TransformPoint(new Vector3(0, 0, ProjectionZ));
-            _viveFrontCameraView.localRotation = sourceTransform.rot;
+            if (_cameraViewMeshFilter.mesh.ToString().Contains("Quad"))
+            {
+                _viveFrontCameraView.localPosition = sourceTransform.TransformPoint(new Vector3(0, 0, distance));
+                _viveFrontCameraView.localRotation = sourceTransform.rot;
+            }
+            if (_cameraViewMeshFilter.mesh.ToString().Contains("Plane"))
+            {
+                _viveFrontCameraView.position = new Vector3(x + headPosition.x, y + headPosition.y, z + headPosition.z);
+                //_viveFrontCameraView.localPosition = sourceTransform.TransformPoint(new Vector3(0, 0, ProjectionZ));
+                _viveFrontCameraView.localRotation = sourceTransform.rot * Quaternion.Euler(90f, 180f, 0f);
+                //_viveFrontCameraView.localRotation = sourceTransform.rot;
+            }
+            if (_cameraViewMeshFilter.mesh.ToString().Contains("Sphere"))
+            {
+                _viveFrontCameraView.position = new Vector3(x + headPosition.x, y + headPosition.y, z + headPosition.z);
+                //_viveFrontCameraView.localPosition = sourceTransform.TransformPoint(new Vector3(0, 0, ProjectionZ));
+                _viveFrontCameraView.localRotation = sourceTransform.rot * Quaternion.Euler(0f, -90f, 0f);
+                //_viveFrontCameraView.localRotation = sourceTransform.rot;
+            }
+            //_viveFrontCameraView.localRotation = sourceTransform.rot;
+            //_viveFrontCameraView.localRotation = Quaternion.Euler(sourceTransform.rot.x-90f, sourceTransform.rot.y, sourceTransform.rot.z);
+            //_viveFrontCameraView.localRotation = Quaternion.Euler(sourceTransform.rot.x, sourceTransform.rot.y, sourceTransform.rot.z);
         }
 
         private void EnableSteamVRCamera()
@@ -184,7 +242,7 @@ namespace Vive
             {
                 return Vector2.one;
             }
-
+            
             return new Vector2(ProjectionMatrix.m0, ProjectionMatrix.m5);
         }
     }

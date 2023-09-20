@@ -13,7 +13,7 @@ namespace Vive
         private SteamVR_Action_Boolean interactWithUI = SteamVR_Input.GetBooleanAction("InteractUI");
 
         [SerializeField]
-        private bool active = true;
+        private bool left = true;
 
         [SerializeField]
         private Color color;
@@ -37,6 +37,9 @@ namespace Vive
 
         [SerializeField]
         private Transform reference;
+
+        [SerializeField]
+        private ViveProInfo VivePro;
         
         public event PointerEventHandler PointerIn;
         public event PointerEventHandler PointerOut;
@@ -87,6 +90,8 @@ namespace Vive
             Material newMaterial = new Material(Shader.Find("Unlit/Color"));
             newMaterial.SetColor("_Color", color);
             pointer.GetComponent<MeshRenderer>().material = newMaterial;
+
+            pointer.SetActive(false);
         }
 
         public virtual void OnPointerIn(PointerEventArgs e)
@@ -140,11 +145,28 @@ namespace Vive
 
         private void Update()
         {
+            if (left)
+            {
+                if (VivePro.GetLeftControllerState())
+                {
+                    UpdateRayCast();
+                }
+            }
+            else
+            {
+                if (VivePro.GetRightControllerState())
+                {
+                    UpdateRayCast();
+                }
+            }
+        }
+
+        private void UpdateRayCast()
+        {
             if (!isActive)
             {
-                //pointer.SetActive(false);
-                //return;
                 isActive = true;
+                pointer.SetActive(true);
                 this.transform.GetChild(0).gameObject.SetActive(true);
             }
 
