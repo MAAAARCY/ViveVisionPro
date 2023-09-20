@@ -36,7 +36,7 @@ public class TestTracker : MonoBehaviour
         Tracker1Rotation = Tracker1RotationQ.eulerAngles;
 
         //取得したデータを表示（T1D：Tracker1位置，T1R：Tracker1回転）
-        //Debug.Log("T1D:" + Tracker1Posision.x + ", " + Tracker1Posision.y + ", " + Tracker1Posision.z + "\n" +
+        //Debug.Log("T1D:" + Tracker1Position.x + ", " + Tracker1Position.y + ", " + Tracker1Position.z + "\n" +
         //            "T1R:" + Tracker1Rotation.x + ", " + Tracker1Rotation.y + ", " + Tracker1Rotation.z);
 
         //KeyboardPosition += Tracker1Posision;

@@ -87,11 +87,11 @@ namespace Vive
 
                 if (left) //ç∂ñ⁄
                 {
-                    _material.mainTextureScale = new Vector2(du, -0.35f); //dv/2
+                    _material.mainTextureScale = new Vector2(du, dv/2); //dv/2
                 }
                 else //âEñ⁄
                 {
-                    _material.mainTextureScale = new Vector2(du, 0.35f);//-dv/2
+                    _material.mainTextureScale = new Vector2(du, -dv/2);//-dv/2
                 }
 
                 aspect *= Mathf.Abs(du / dv);
