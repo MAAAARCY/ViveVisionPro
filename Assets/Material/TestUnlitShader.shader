@@ -3,7 +3,7 @@ Shader "Unlit/TestUnlitShader"
     Properties
     {
         _MainTex ("Base (RGB)", 2D) = "white" {}
-        _DistortionAmount ("Distortion Amount", Range(0, 1)) = 0.1
+        //_DistortionAmount ("Distortion Amount", Range(0, 1)) = 0.1
     }
     SubShader
     {
@@ -29,7 +29,7 @@ Shader "Unlit/TestUnlitShader"
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
+                //UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
             };
 
@@ -57,10 +57,10 @@ Shader "Unlit/TestUnlitShader"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                float2 center = 0.5;
+                float2 center = 0.25;
                 float2 offset = i.uv - center;
                 float distance = length(offset);
-                float2 distortedUV = center + offset * distance * 1.0;
+                float2 distortedUV = center + offset * distance * 0.1;
                 
                 fixed4 col = tex2D(_MainTex, distortedUV);
                 //fixed4 col = tex2D(_MainTex, i.uv);

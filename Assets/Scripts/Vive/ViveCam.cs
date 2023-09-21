@@ -31,6 +31,9 @@ namespace Vive
         private Material _material;
 
         [SerializeField]
+        private Material _anotherMaterial;
+
+        [SerializeField]
         private RenderTexture _renderTexture;
 
         [SerializeField]
@@ -109,6 +112,9 @@ namespace Vive
                     _material.mainTextureOffset = Vector2.zero;
                     _material.mainTextureScale = new Vector2(1f, -1f);
                 }
+
+                _material.CopyPropertiesFromMaterial(_anotherMaterial);
+                Debug.Log(_material == _anotherMaterial);
             }
             else
             {
