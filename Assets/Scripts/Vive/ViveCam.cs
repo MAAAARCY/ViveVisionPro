@@ -31,7 +31,16 @@ namespace Vive
         private Material _material;
 
         [SerializeField]
+        private Material _anotherMaterial;
+
+        [SerializeField]
+        private RenderTexture _renderTexture;
+
+        [SerializeField]
         private float distance;
+
+        [SerializeField]
+        private bool useRenderTexture;
 
         //HMDの位置座標格納用
         private Vector3 headPosition;
@@ -73,34 +82,72 @@ namespace Vive
                 return;
             }
 
-            _material.mainTexture = texture;
-
-            float aspect = (float)texture.width / texture.height;
-
-            if (_cropped)
+            if (useRenderTexture)
             {
-                var bounds = source.frameBounds;
-                _material.mainTextureOffset = new Vector2(bounds.uMin, bounds.vMin);
+                
+                //_material.mainTexture = texture;
 
-                float du = bounds.uMax - bounds.uMin;
-                float dv = bounds.vMax - bounds.vMin;
+                float aspect = (float)texture.width / texture.height;
 
-                if (left) //左目
+                if (_cropped)
                 {
-                    _material.mainTextureScale = new Vector2(du, dv/2); //dv/2
+                    var bounds = source.frameBounds;
+
+                    float du = bounds.uMax - bounds.uMin;
+                    float dv = bounds.vMax - bounds.vMin;
+
+                    if (left) //左目
+                    {
+                        Graphics.Blit(texture, _renderTexture, new Vector2(du, dv / 2), new Vector2(bounds.uMin, bounds.vMin));
+                    }
+                    else //右目
+                    {
+                        Graphics.Blit(texture, _renderTexture, new Vector2(du, -dv / 2), new Vector2(bounds.uMin, bounds.vMin));
+                    }
+
+                    aspect *= Mathf.Abs(du / dv);
                 }
-                else //右目
+                else
                 {
-                    _material.mainTextureScale = new Vector2(du, -dv/2);//-dv/2
+                    _material.mainTextureOffset = Vector2.zero;
+                    _material.mainTextureScale = new Vector2(1f, -1f);
                 }
 
-                aspect *= Mathf.Abs(du / dv);
+                _material.CopyPropertiesFromMaterial(_anotherMaterial);
+                Debug.Log(_material == _anotherMaterial);
             }
             else
             {
-                _material.mainTextureOffset = Vector2.zero;
-                _material.mainTextureScale = new Vector2(1f, -1f);
+                _material.mainTexture = texture;
+
+                float aspect = (float)texture.width / texture.height;
+
+                if (_cropped)
+                {
+                    var bounds = source.frameBounds;
+                    _material.mainTextureOffset = new Vector2(bounds.uMin, bounds.vMin);
+
+                    float du = bounds.uMax - bounds.uMin;
+                    float dv = bounds.vMax - bounds.vMin;
+
+                    if (left) //左目
+                    {
+                        _material.mainTextureScale = new Vector2(du, dv / 2); //dv/2
+                    }
+                    else //右目
+                    {
+                        _material.mainTextureScale = new Vector2(du, -dv / 2);//-dv/2
+                    }
+
+                    aspect *= Mathf.Abs(du / dv);
+                }
+                else
+                {
+                    _material.mainTextureOffset = Vector2.zero;
+                    _material.mainTextureScale = new Vector2(1f, -1f);
+                }
             }
+            
 
             if (source.hasTracking)
             {
