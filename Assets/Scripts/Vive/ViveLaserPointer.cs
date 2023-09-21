@@ -91,7 +91,7 @@ namespace Vive
             newMaterial.SetColor("_Color", color);
             pointer.GetComponent<MeshRenderer>().material = newMaterial;
 
-            pointer.SetActive(false);
+            //pointer.SetActive(false);
         }
 
         public virtual void OnPointerIn(PointerEventArgs e)
