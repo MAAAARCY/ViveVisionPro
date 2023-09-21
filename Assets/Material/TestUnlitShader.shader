@@ -3,6 +3,7 @@ Shader "Unlit/TestUnlitShader"
     Properties
     {
         _MainTex ("Base (RGB)", 2D) = "white" {}
+        _DistortionAmount ("Distortion Amount", Range(0, 1)) = 0.1
     }
     SubShader
     {
@@ -34,24 +35,40 @@ Shader "Unlit/TestUnlitShader"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            /*
+            float2 ModifyLensDistortion(float2 distortionUV)
+            {
+                float2 rVec = (distortionUV - float2(0.5f, 0.5f));
+                rVec.x *= ASPECT_RATIO;
 
+                
+                return uv;
+            }
+            */
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                //o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv = v.uv.xy * _MainTex_ST.xy + _MainTex_ST.zw;
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
-                // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
+                float2 center = 0.5;
+                float2 offset = i.uv - center;
+                float distance = length(offset);
+                float2 distortedUV = center + offset * distance * 1.0;
+                
+                fixed4 col = tex2D(_MainTex, distortedUV);
+                //fixed4 col = tex2D(_MainTex, i.uv);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
             }
+
             ENDCG
         }
     }
