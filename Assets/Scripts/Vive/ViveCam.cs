@@ -4,6 +4,8 @@ using Valve.VR;
 using System.Collections.Generic;
 using System.Linq;
 
+using Applications.FrontCamera;
+
 namespace Vive
 {
     public class ViveCam : MonoBehaviour
@@ -65,7 +67,7 @@ namespace Vive
 
         private void Update()
         {
-            if (_enableScreen)
+            if (FrontCameraInfo.FrontCameraIsActive)
             {
                 UpdateCameraTexture();
             }

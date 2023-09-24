@@ -8,7 +8,7 @@ namespace Vive
     {
         //InteractUIÉ{É^Éì
         //private SteamVR_Action_Boolean Iui = SteamVR_Actions.default_InteractUI;
-        private SteamVR_Action_Boolean Iui = SteamVR_Input.GetBooleanAction("InteractUI");
+        private static SteamVR_Action_Boolean Iui = SteamVR_Input.GetBooleanAction("InteractUI");
         //åãâ ÇÃäiî[ópBooleanå^ä÷êîineractui
         private static Boolean interactLeftUI;
         private static Boolean interactRightUI;
@@ -29,8 +29,8 @@ namespace Vive
 
         void Update()
         {
-            interactLeftUI = Iui.GetState(SteamVR_Input_Sources.LeftHand);
-            interactRightUI = Iui.GetState(SteamVR_Input_Sources.RightHand);
+            //interactLeftUI = Iui.GetState(SteamVR_Input_Sources.LeftHand);
+            //interactRightUI = Iui.GetState(SteamVR_Input_Sources.RightHand);
             LeftTrackPadAxis = TrackPad.GetLastAxis(SteamVR_Input_Sources.LeftHand);
             LeftTrackPadAxisDelta = TrackPad.GetLastAxisDelta(SteamVR_Input_Sources.LeftHand);
             RightTrackPadAxis = TrackPad.GetLastAxis(SteamVR_Input_Sources.RightHand);
@@ -38,7 +38,7 @@ namespace Vive
 
             grabLeftGrip = GrabG.GetState(SteamVR_Input_Sources.LeftHand);
             grabRightGrip = GrabG.GetState(SteamVR_Input_Sources.RightHand);
-
+            /*
             if (interactLeftUI || interactRightUI)
             {
                 Debug.Log("InteractUI(Left):" + interactLeftUI + ", InteractUI(Right):" + interactRightUI);
@@ -48,7 +48,7 @@ namespace Vive
             {
                 Debug.Log("leftGrabGrip:" + grabLeftGrip + ", rightGrabGrip:" + grabRightGrip);
             }
-
+            */
             //Debug.Log("x:" + LeftTrackPadAxis.x + ", y:" + LeftTrackPadAxis.y);
             //Debug.Log("x:" + LeftTrackPadAxisDelta.x + ", y:" + LeftTrackPadAxisDelta.y);
         }
@@ -57,7 +57,7 @@ namespace Vive
         {
             get
             {
-                return interactLeftUI;
+                return Iui.GetState(SteamVR_Input_Sources.LeftHand);
             }
         }
 
@@ -65,7 +65,39 @@ namespace Vive
         {
             get
             {
-                return interactRightUI;
+                return Iui.GetState(SteamVR_Input_Sources.RightHand);
+            }
+        }
+
+        public static Boolean InteractLeftGetStateUp
+        {
+            get
+            {
+                return Iui.GetStateUp(SteamVR_Input_Sources.LeftHand);
+            }
+        }
+
+        public static Boolean InteractRightGetStateUp
+        {
+            get
+            {
+                return Iui.GetStateUp(SteamVR_Input_Sources.RightHand);
+            }
+        }
+
+        public static Boolean InteractLeftGetStateDown
+        {
+            get
+            {
+                return Iui.GetStateDown(SteamVR_Input_Sources.LeftHand);
+            }
+        }
+
+        public static Boolean InteractRightGetStateDown
+        {
+            get
+            {
+                return Iui.GetStateDown(SteamVR_Input_Sources.RightHand);
             }
         }
 

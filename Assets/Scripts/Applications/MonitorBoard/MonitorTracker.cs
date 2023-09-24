@@ -5,6 +5,9 @@ namespace Applications.MonitorBoard
 {
     public class MonitorTracker: MonoBehaviour
     {
+        [SerializeField]
+        private GameObject MonitorBoard;
+
         [SerializeField] 
         private Transform MonitorBoardTransform;
 
@@ -47,6 +50,15 @@ namespace Applications.MonitorBoard
 
         private void Update()
         {
+            if (MonitorBoardInfo.MonitorBoardIsActive)
+            {
+                MonitorBoard.SetActive(true);
+            }
+            else
+            {
+                MonitorBoard.SetActive(false);
+            }
+
             switch(MonitorBoardInfo.Tracker)
             {
                 case MonitorVariousTracker.TrackFollowing:
