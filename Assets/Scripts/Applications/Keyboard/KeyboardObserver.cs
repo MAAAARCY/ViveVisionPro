@@ -34,24 +34,33 @@ namespace Keyboard
                 {
                     if (Input.GetKeyDown(code))
                     {
-                        KeyboardState.NowKeyCode = code;
-                        KeyboardState.NowKeyName = code.ToString();
+                        KeyboardState.PressedKeyCode = code;
+                        KeyboardState.PressedKeyName = code.ToString();
+                        KeyboardState.addPressedKeyDownList(code);
                         break;
                     }
                 }
             }
 
-            if (Input.GetKey(KeyboardState.NowKeyCode))
+            if (Input.GetKey(KeyboardState.PressedKeyCode))
             {
-                Debug.Log(KeyboardState.NowKeyCode);
-                KeyboardState.setKeyDown(KeyboardState.NowKeyName);
-                KeyboardState.NowKeyDown = true;
+                //Debug.Log(KeyboardState.PressedKeyCode);
+                KeyboardState.setKeyDown(KeyboardState.PressedKeyName);
+                KeyboardState.PressedKeyDown = true;
             }
-            else
+
+            for(int i = 0; i < KeyboardState.PressedKeyDownList.Count; i++)
             {
-                KeyboardState.setKeyUp(KeyboardState.NowKeyName);
-                KeyboardState.NowKeyDown = false;
+                if (!(Input.GetKey(KeyboardState.PressedKeyDownList[i])))
+                {
+                    KeyboardState.setKeyUp(KeyboardState.PressedKeyDownList[i].ToString());
+                    KeyboardState.removePressedKeyDownList(KeyboardState.PressedKeyDownList[i]);
+
+                    KeyboardState.PressedKeyDown = false;
+                }
             }
+            
+            //Debug.Log(KeyboardState.PressedKeyDownList.Count);
         }
     }
 }
