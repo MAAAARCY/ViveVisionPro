@@ -5,46 +5,70 @@ namespace Keyboard
 {
     public static class KeyboardState
     {
-        private static KeyCode nowKeyCode;
-        private static string nowKeyName = "None";
-        private static bool nowKeyDown = false;
+        private static KeyCode pressedKeyCode;
+        private static string pressedKeyName = "None";
+        private static bool pressedKeyDown = false;
 
         private static Dictionary<string, Transform> keyTransforms = new Dictionary<string, Transform>();
 
-        public static KeyCode NowKeyCode
+        private static List<KeyCode> pressedKeyDownList = new List<KeyCode>();
+
+        public static KeyCode PressedKeyCode
         {
             set
             {
-                nowKeyCode = value;
+                pressedKeyCode = value;
             }
             get
             {
-                return nowKeyCode;
+                return pressedKeyCode;
             }
         }
 
-        public static bool NowKeyDown
+        public static bool PressedKeyDown
         {
             set
             {
-                nowKeyDown = value;
+                pressedKeyDown = value;
             }
             get
             {
-                return nowKeyDown;
+                return pressedKeyDown;
             }
         }
 
-        public static string NowKeyName
+        public static string PressedKeyName
         {
             set
             {
-                nowKeyName = value;
+                pressedKeyName = value;
             }
             get
             {
-                return nowKeyName;
+                return pressedKeyName;
             }
+        }
+
+        public static List<KeyCode> PressedKeyDownList
+        {
+            get
+            {
+                return pressedKeyDownList;
+            }
+        }
+
+        public static void addPressedKeyDownList(KeyCode code)
+        {
+            if (code.ToString() == "None" || !(keyTransforms.ContainsKey(code.ToString()))) return;
+
+            pressedKeyDownList.Add(code);
+        }
+
+        public static void removePressedKeyDownList(KeyCode code)
+        {
+            if (code.ToString() == "None" || !(keyTransforms.ContainsKey(code.ToString()))) return;
+
+            pressedKeyDownList.Remove(code);
         }
 
         public static void setKeyTransform(string keyName, Transform keyTransform)
@@ -66,6 +90,9 @@ namespace Keyboard
 
             Vector3 KeyPosition = keyTransforms[keyName].localPosition;
             keyTransforms[keyName].localPosition = new Vector3(KeyPosition.x, 0, KeyPosition.z);
+
+            //Debug.Log(keyName == pressedKeyCode.ToString());
+            //if (keyName == pressedKeyCode.ToString() && !(pressedKeyDownQueue.Contains(pressedKeyCode))) pressedKeyDownQueue.Enqueue(pressedKeyCode);
         }
 
         public static void setKeyUp(string keyName)
