@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.microsoft.mrtk.graphicstools.unity": "https://github.com/microsoft/MixedReality-GraphicsTools-Unity.git?path=/com.microsoft.mrtk.graphicstools.unity#v0.4.0",
     "com.ultraleap.tracking": "6.11.0",
     "com.unity.collab-proxy": "2.0.1",
     "com.unity.feature.development": "1.0.1",
