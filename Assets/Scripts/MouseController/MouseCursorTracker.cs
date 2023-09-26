@@ -95,7 +95,7 @@ namespace MouseController
                 }
 
                 MouseCursorPositioning.setCursorPositionByLaserPointer(LeftLaserPointer.GetLaserPointerUVPosition());
-                MouseClicker.clickOnce(0, ViveController.InteractLeftUIState);
+                MouseClicker.clickOnce(0, ViveController.InteractLeftGetState);
             }
 
             if (!(useLeftHand) && VivePro.GetRightControllerState())
@@ -106,7 +106,7 @@ namespace MouseController
                 }
 
                 MouseCursorPositioning.setCursorPositionByLaserPointer(RightLaserPointer.GetLaserPointerUVPosition());
-                MouseClicker.clickOnce(0, ViveController.InteractRightUIState);
+                MouseClicker.clickOnce(0, ViveController.InteractRightGetState);
             }
         }
 

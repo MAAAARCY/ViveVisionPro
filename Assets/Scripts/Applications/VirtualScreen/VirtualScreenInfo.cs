@@ -1,17 +1,18 @@
 using UnityEngine;
 
-namespace Applications.MonitorBoard
+namespace Applications.VirtualScreen
 {
-    public sealed class MonitorBoardInfo
+    public sealed class VirtualScreenInfo
     {
         private static Vector3 monitorBoardPosition;
         private static Vector3 monitorBoardRotation;
         private static Vector3 virtualScreenPosition;
+        private static Vector3 virtualScreenRotation;
         private static Vector3 virtualScreenScale;
         private static bool trackFollowing;
         private static bool monitorBoardIsActive = false;
         private static float distance;
-        private static MonitorVariousTracker tracker;
+        private static VariousVirtualScreenTracker tracker;
 
         public static Vector3 MonitorBoardPosition
         {
@@ -46,6 +47,18 @@ namespace Applications.MonitorBoard
             get
             {
                 return virtualScreenPosition;
+            }
+        }
+        
+        public static Vector3 VirtualScreenRotation
+        {
+            set
+            {
+                virtualScreenRotation = value;
+            }
+            get
+            {
+                return virtualScreenRotation;
             }
         }
 
@@ -97,7 +110,7 @@ namespace Applications.MonitorBoard
             }
         }
 
-        public static MonitorVariousTracker Tracker
+        public static VariousVirtualScreenTracker Tracker
 
         {
             set
