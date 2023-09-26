@@ -111,7 +111,6 @@ namespace Applications.VirtualScreen
         }
 
         public static VariousVirtualScreenTracker Tracker
-
         {
             set
             {

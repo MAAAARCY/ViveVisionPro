@@ -40,7 +40,7 @@ namespace Vive
         private ViveController RightController;
 
         //[SerializeField]
-        private static bool useLeftHand = true;
+        private static bool useLeftHand = false;
 
         private float delta;
 

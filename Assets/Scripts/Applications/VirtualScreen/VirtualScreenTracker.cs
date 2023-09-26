@@ -35,12 +35,6 @@ namespace Applications.VirtualScreen
         [SerializeField]
         private float _distance;
 
-        [SerializeField]
-        private bool _trackFollowing = true;
-
-        [SerializeField]
-        private VariousVirtualScreenTracker _tracker;
-
         private Vector3 LaserPointerPositionDelta;
         private Vector3 HMDRotation;
         private Vector3 LaserPointerRotation;
@@ -54,9 +48,8 @@ namespace Applications.VirtualScreen
             VirtualScreenInfo.VirtualScreenRotation = MonitorBoardRotation;
             VirtualScreenInfo.VirtualScreenScale = VirtualScreenScale;
 
-            VirtualScreenInfo.TrackFollowing = _trackFollowing;
             VirtualScreenInfo.Distance = _distance;
-            VirtualScreenInfo.Tracker = _tracker;
+            VirtualScreenInfo.Tracker = VariousVirtualScreenTracker.ViveController;
         }
 
         private void Update()
@@ -79,13 +72,12 @@ namespace Applications.VirtualScreen
                     MoveVirtualScreenByViveController();
                     break;
                 case VariousVirtualScreenTracker.Keep:
-                    //MonitorBoardTransform.position = MonitorBoardInfo.MonitorBoardPosition;
                     VirtualScreenTransform.position = VirtualScreenInfo.VirtualScreenPosition;
                     VirtualScreenTransform.rotation = Quaternion.Euler(VirtualScreenInfo.VirtualScreenRotation);
                     break;
             }
 
-            VirtualScreenInfo.Tracker = _tracker;
+            //VirtualScreenInfo.Tracker = _tracker;
 
             VirtualScreenTransform.localScale = VirtualScreenInfo.VirtualScreenScale;
         }

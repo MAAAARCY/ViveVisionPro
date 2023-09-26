@@ -70,9 +70,15 @@ namespace Applications.UI
                         case "FrontCamera":
                             EnableFrontCamera.SwitchFrontCameraState();
                             break;
+                        case "Settings":
+                            SettingsMenu.Menu();
+                            break;
                         case "UseHand":
                             UseHand.SwitchUseHand();
                             UseHand.SwitchIconName();
+                            break;
+                        case "ScreenFollows":
+                            SettingsMenu.EnableScreenFollows();
                             break;
                     }
                     
@@ -95,20 +101,5 @@ namespace Applications.UI
                 }
             }
         }
-        /*
-        public void EnableFrontCamera()
-        {
-            if (!(FrontCameraInfo.FrontCameraIsActive))
-            {
-                FrontCameraInfo.FrontCameraIsActive = true;
-                return;
-            }
-            else
-            {
-                FrontCameraInfo.FrontCameraIsActive = false;
-                return;
-            }
-        }
-        */
     }
 }
