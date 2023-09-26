@@ -257,7 +257,7 @@ namespace Vive
                 laser.GetComponent<MeshRenderer>().material.color = color;
                 pointer.GetComponent<MeshRenderer>().material.color = color;
             }
-
+            
             if (pointerInCollider)
             {
                 pointer.SetActive(true);
@@ -266,7 +266,7 @@ namespace Vive
             {
                 pointer.SetActive(false);
             }
-
+            
             laser.transform.localPosition = new Vector3(0f, 0f, dist / 2f);
             Debug.Log(bHit);
         }
