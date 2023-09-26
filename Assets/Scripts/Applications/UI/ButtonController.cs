@@ -50,17 +50,14 @@ namespace Applications.UI
                     switch (applicationName)
                     {
                         case "VirtualScreen":
-                            //ExecuteEvents.Execute(EnableVirtualScreenButton.gameObject, new PointerEventData(EventSystem.current), ExecuteEvents.pointerClickHandler);
                             EnableVirtualScreen();
                             break;
                         case "FrontCamera":
-                            //ExecuteEvents.Execute(EnableFrontCameraButton.gameObject, new PointerEventData(EventSystem.current), ExecuteEvents.pointerClickHandler);
+                            EnableFrontCamera();
                             break;
                     }
                     
                     Debug.Log(applicationName);
-                    //TestButton.onClick.Invoke();
-                    //OnPointerClick();
                     isActive = false;
                 }
             }
@@ -90,12 +87,13 @@ namespace Applications.UI
         public void MoveHandle()
         {
             SizeChangeBar.value += VivePro.GetRightControllerPositionDelta().x * 10;
-            Debug.Log(VivePro.GetRightControllerPositionDelta().x);
+            MonitorBoardInfo.VirtualScreenScale = new Vector3(SizeChangeBar.value, SizeChangeBar.value * 0.5f, 1.0f);
+
+            //Debug.Log(VivePro.GetRightControllerPositionDelta().x);
         }
 
         public void EnableVirtualScreen()
         {
-            Debug.Log("Clicked");
             if (!(MonitorBoardInfo.MonitorBoardIsActive))
             {
                 MonitorBoardInfo.MonitorBoardIsActive = true;

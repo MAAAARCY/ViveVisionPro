@@ -11,6 +11,9 @@ namespace Applications.MonitorBoard
         [SerializeField] 
         private Transform MonitorBoardTransform;
 
+        [SerializeField]
+        private Transform VirtualScreenTransform;
+
         [SerializeField] 
         private ViveProInfo VivePro;
 
@@ -19,6 +22,9 @@ namespace Applications.MonitorBoard
 
         [SerializeField]
         private Vector3 MonitorBoardRotation;
+
+        [SerializeField]
+        private Vector3 VirtualScreenScale;
 
         [SerializeField]
         private ViveLaserPointer LeftLaserPointer;
@@ -43,6 +49,10 @@ namespace Applications.MonitorBoard
         {
             MonitorBoardInfo.MonitorBoardPosition = MonitorBoardPosition;
             MonitorBoardInfo.MonitorBoardRotation = MonitorBoardRotation;
+
+            MonitorBoardInfo.VirtualScreenPosition = MonitorBoardPosition;
+            MonitorBoardInfo.VirtualScreenScale = VirtualScreenScale;
+
             MonitorBoardInfo.TrackFollowing = _trackFollowing;
             MonitorBoardInfo.Distance = _distance;
             MonitorBoardInfo.Tracker = _tracker;
@@ -68,12 +78,15 @@ namespace Applications.MonitorBoard
                     MoveMonitorBoardByViveController();
                     break;
                 case MonitorVariousTracker.Keep:
-                    MonitorBoardTransform.position = MonitorBoardInfo.MonitorBoardPosition;
+                    //MonitorBoardTransform.position = MonitorBoardInfo.MonitorBoardPosition;
+                    VirtualScreenTransform.position = MonitorBoardInfo.VirtualScreenPosition;
                     MonitorBoardTransform.rotation = Quaternion.Euler(MonitorBoardInfo.MonitorBoardRotation);
                     break;
             }
 
             MonitorBoardInfo.Tracker = _tracker;
+
+            VirtualScreenTransform.localScale = MonitorBoardInfo.VirtualScreenScale;
         }
 
         private void UpdateMonitorBoardTransform()

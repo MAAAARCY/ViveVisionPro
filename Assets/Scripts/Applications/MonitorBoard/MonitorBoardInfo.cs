@@ -6,6 +6,8 @@ namespace Applications.MonitorBoard
     {
         private static Vector3 monitorBoardPosition;
         private static Vector3 monitorBoardRotation;
+        private static Vector3 virtualScreenPosition;
+        private static Vector3 virtualScreenScale;
         private static bool trackFollowing;
         private static bool monitorBoardIsActive = false;
         private static float distance;
@@ -32,6 +34,30 @@ namespace Applications.MonitorBoard
             get
             {
                 return monitorBoardRotation;
+            }
+        }
+
+        public static Vector3 VirtualScreenPosition
+        {
+            set
+            {
+                virtualScreenPosition = value;
+            }
+            get
+            {
+                return virtualScreenPosition;
+            }
+        }
+
+        public static Vector3 VirtualScreenScale
+        {
+            set
+            {
+                virtualScreenScale = value;
+            }
+            get
+            {
+                return virtualScreenScale;
             }
         }
 
