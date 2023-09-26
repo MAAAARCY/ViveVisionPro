@@ -159,12 +159,10 @@ namespace Vive
 
         public static bool UseLeftHand
         {
-            /*
             set
             {
                 useLeftHand = value;
             }
-            */
             get
             {
                 return useLeftHand;
