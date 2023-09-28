@@ -80,6 +80,9 @@ namespace Applications.UI
                         case "ScreenFollows":
                             SettingsMenu.EnableScreenFollows();
                             break;
+                        case "CursorOperation":
+                            CursorOperation.SwitchCursorOperation();
+                            break;
                     }
                     
                     Debug.Log(applicationName);

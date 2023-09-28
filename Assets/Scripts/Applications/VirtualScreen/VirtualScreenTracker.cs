@@ -14,6 +14,9 @@ namespace Applications.VirtualScreen
         [SerializeField]
         private Transform VirtualScreenTransform;
 
+        [SerializeField]
+        private Transform PlayerScreenTransform;
+
         [SerializeField] 
         private ViveProInfo VivePro;
 
@@ -91,8 +94,11 @@ namespace Applications.VirtualScreen
             float z = VirtualScreenInfo.Distance * Mathf.Cos(HMDRotation.y * Mathf.PI / 180f);
 
             //transformを変更する部分
-            VirtualScreenTransform.position = new Vector3(x, y, z);
-            VirtualScreenTransform.rotation = Quaternion.Euler(HMDRotation.x, HMDRotation.y, HMDRotation.z);
+            //VirtualScreenTransform.position = new Vector3(x, y, z);
+            //VirtualScreenTransform.rotation = Quaternion.Euler(HMDRotation.x, HMDRotation.y, HMDRotation.z);
+
+            PlayerScreenTransform.position = new Vector3(x, y, z);
+            PlayerScreenTransform.rotation = Quaternion.Euler(HMDRotation.x, HMDRotation.y, HMDRotation.z);
 
             //VirtualScreenInfoにpositionとrotationを格納し、他のプログラムから座標を取れるようにするため
             VirtualScreenInfo.VirtualScreenPosition = VirtualScreenTransform.position;
@@ -110,8 +116,11 @@ namespace Applications.VirtualScreen
 
                 VirtualScreenInfo.Distance += (20f * LaserPointerPositionDelta.z);
 
-                VirtualScreenTransform.position = PolarCoordinates(LaserPointerRotation, VirtualScreenInfo.Distance);
-                VirtualScreenTransform.rotation = Quaternion.Euler(LaserPointerRotation.x, LaserPointerRotation.y, 0f);
+                //VirtualScreenTransform.position = PolarCoordiantes(LaserPointerRotation, VirtualScreenInfo.Distance);
+                //VirtualScreenTransform.rotation = Quaternion.Euler(LaserPointerRotation.x, LaserPointerRotation.y, 0f);
+
+                PlayerScreenTransform.position = PolarCoordinates(LaserPointerRotation, VirtualScreenInfo.Distance);
+                PlayerScreenTransform.rotation = Quaternion.Euler(LaserPointerRotation.x, LaserPointerRotation.y, 0f);
 
                 VirtualScreenInfo.MonitorBoardPosition = VirtualScreenTransform.position;
                 VirtualScreenInfo.MonitorBoardRotation = VirtualScreenTransform.rotation.eulerAngles;
@@ -126,8 +135,11 @@ namespace Applications.VirtualScreen
 
                 VirtualScreenInfo.Distance += (20f * LaserPointerPositionDelta.z);
 
-                VirtualScreenTransform.position = PolarCoordinates(LaserPointerRotation, VirtualScreenInfo.Distance);
-                VirtualScreenTransform.rotation = Quaternion.Euler(LaserPointerRotation.x, LaserPointerRotation.y, 0f);
+                //VirtualScreenTransform.position = PolarCoordinates(LaserPointerRotation, VirtualScreenInfo.Distance);
+                //VirtualScreenTransform.rotation = Quaternion.Euler(LaserPointerRotation.x, LaserPointerRotation.y, 0f);
+
+                PlayerScreenTransform.position = PolarCoordinates(LaserPointerRotation, VirtualScreenInfo.Distance);
+                PlayerScreenTransform.rotation = Quaternion.Euler(LaserPointerRotation.x, LaserPointerRotation.y, 0f);
 
                 VirtualScreenInfo.MonitorBoardPosition = VirtualScreenTransform.position;
                 VirtualScreenInfo.MonitorBoardRotation = VirtualScreenTransform.rotation.eulerAngles;

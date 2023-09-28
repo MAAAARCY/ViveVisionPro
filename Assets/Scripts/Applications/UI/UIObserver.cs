@@ -25,6 +25,9 @@ namespace Applications.UI
         [SerializeField]
         private TextMeshProUGUI SettingsMenuLabel;
 
+        [SerializeField]
+        private TextMeshProUGUI CursorOperationLabel;
+
         ///Font Selector
         [SerializeField]
         private FontIconSelector UseHandIcon;
@@ -52,6 +55,7 @@ namespace Applications.UI
             UseHandIcon.CurrentIconName = UseHand.IconName;
             SettingsMenuLabel.text = SettingsMenu.ScreenFollowsLabel;
             ScreenFollowsIcon.CurrentIconName = SettingsMenu.ScreenFollowsIconName;
+            CursorOperationLabel.text = CursorOperation.Label;
 
             Debug.Log(ScreenFollowsIcon.CurrentIconName);
 
