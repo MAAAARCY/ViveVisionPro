@@ -35,7 +35,7 @@ namespace MouseController
         Vector3 CombineGazeRaydirection;
         //------------------------------
 
-        [SerializeField]
+        //[SerializeField]
         private MouseVariousTracker Tracker;
 
         [SerializeField]
@@ -68,6 +68,8 @@ namespace MouseController
 
         private void Update()
         {
+            Tracker = MouseCursorOperationInfo.Tracker;
+
             switch(Tracker)
             {
                 case MouseVariousTracker.ViveController:
@@ -95,7 +97,7 @@ namespace MouseController
                 }
 
                 MouseCursorPositioning.setCursorPositionByLaserPointer(LeftLaserPointer.GetLaserPointerUVPosition());
-                MouseClicker.clickOnce(0, ViveController.InteractLeftUIState);
+                MouseClicker.clickOnce(0, ViveController.InteractLeftGetState);
             }
 
             if (!(useLeftHand) && VivePro.GetRightControllerState())
@@ -106,7 +108,7 @@ namespace MouseController
                 }
 
                 MouseCursorPositioning.setCursorPositionByLaserPointer(RightLaserPointer.GetLaserPointerUVPosition());
-                MouseClicker.clickOnce(0, ViveController.InteractRightUIState);
+                MouseClicker.clickDown(0, ViveController.InteractRightGetState);
             }
         }
 
@@ -122,6 +124,7 @@ namespace MouseController
                 }
 
                 MouseCursorPositioning.setCursorPositionByTrackPad(ViveController.LeftTrackPadTouchPosition, 10.0f);
+                MouseClicker.clickDown(0, ViveController.InteractLeftGetStateDown);
             }
 
             if (!(useLeftHand) && VivePro.GetRightControllerState())
@@ -134,6 +137,7 @@ namespace MouseController
                 }
                 
                 MouseCursorPositioning.setCursorPositionByTrackPad(ViveController.RightTrackPadTouchPosition, 10.0f);
+                MouseClicker.clickDown(0, ViveController.InteractRightGetState);
             }
         }
 

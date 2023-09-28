@@ -53,6 +53,8 @@ namespace Vive
         private bool pointerInCollider = false;
         private float pointerRadius = 0.05f;
 
+        private bool bHit = false;
+
         private void Start()
         {
             if (pose == null)
@@ -76,6 +78,7 @@ namespace Vive
             laser.transform.localRotation = Quaternion.identity;
 
             pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            pointer.GetComponent<SphereCollider>().enabled = false;
             pointer.transform.parent = this.transform;
             pointer.transform.localScale = new Vector3(pointerRadius, pointerRadius, pointerRadius);
             pointer.transform.localPosition = new Vector3(0f, 0f, 0f);
@@ -104,7 +107,7 @@ namespace Vive
             pointer.GetComponent<MeshRenderer>().material = newMaterial;
             pointer.SetActive(false);
         }
-
+        /*
         public virtual void OnPointerIn(PointerEventArgs e)
         {
             Debug.Log("This is OnPointerIn.");
@@ -128,7 +131,7 @@ namespace Vive
             if (PointerOut != null)
                 PointerOut(this, e);
         }
-
+        */
         public Vector2 GetLaserPointerUVPosition()
         {
             if (pointerInCollider)
@@ -163,6 +166,10 @@ namespace Vive
 
         public string GetColliderName()
         {
+            if (!(bHit))
+            {
+                return "None";
+            }
             return hit.collider.name;
         }
 
@@ -172,19 +179,19 @@ namespace Vive
             {
                 if (VivePro.GetLeftControllerState())
                 {
-                    UpdateRayCast();
+                    UpdateRayCast(ViveController.InteractLeftGetState);
                 }
             }
             else
             {
                 if (VivePro.GetRightControllerState())
                 {
-                    UpdateRayCast();
+                    UpdateRayCast(ViveController.InteractRightGetState);
                 }
             }
         }
 
-        private void UpdateRayCast()
+        private void UpdateRayCast(bool controllerState)
         {
             if (!isActive)
             {
@@ -196,56 +203,22 @@ namespace Vive
             float dist = 100f;
 
             Ray raycast = new Ray(transform.position, transform.forward);
-            bool bHit = Physics.Raycast(raycast, out hit);
-            /*
-            if (previousContact && previousContact != hit.transform)
-            {
-                PointerEventArgs args = new PointerEventArgs();
-                args.fromInputSource = pose.inputSource;
-                args.distance = 0f;
-                args.flags = 0;
-                args.target = previousContact;
-                OnPointerOut(args);
-                previousContact = null;
-            }
-            if (bHit && previousContact != hit.transform)
-            {
-                PointerEventArgs argsIn = new PointerEventArgs();
-                argsIn.fromInputSource = pose.inputSource;
-                argsIn.distance = hit.distance;
-                argsIn.flags = 0;
-                argsIn.target = hit.transform;
-                OnPointerIn(argsIn);
-                previousContact = hit.transform;
-            }
-            */
+            bHit = Physics.Raycast(raycast, out hit);
+
             if (!bHit)
             {
                 previousContact = null;
                 pointerInCollider = false;
-                //pointer.SetActive(false);
             }
-            if (bHit/* && hit.distance < 100f*/)
+            if (bHit && hit.distance < 100f)
             {
                 dist = hit.distance;
 
                 pointerInCollider = true;
-                //pointer.SetActive(true);
-                //pointer.transform.localPosition = new Vector3(0f, 0f, dist);
                 Debug.Log(pointer.transform.localPosition);
             }
-            /*
-            if (bHit && interactWithUI.GetStateUp(pose.inputSource))
-            {
-                PointerEventArgs argsClick = new PointerEventArgs();
-                argsClick.fromInputSource = pose.inputSource;
-                argsClick.distance = hit.distance;
-                argsClick.flags = 0;
-                argsClick.target = hit.transform;
-                OnPointerClick(argsClick);
-            }
-            */
-            if (interactWithUI != null && interactWithUI.GetState(pose.inputSource))
+
+            if (controllerState)
             {
                 laser.transform.localScale = new Vector3(thickness * 5f, thickness * 5f, dist);
                 laser.GetComponent<MeshRenderer>().material.color = clickColor;
@@ -257,18 +230,20 @@ namespace Vive
                 laser.GetComponent<MeshRenderer>().material.color = color;
                 pointer.GetComponent<MeshRenderer>().material.color = color;
             }
-            
+
             if (pointerInCollider)
             {
+                pointer.transform.position = hit.point;
+                //pointer.transform.localPosition = new Vector3(0, 0, dist);
                 pointer.SetActive(true);
             }
             else
             {
+                pointer.transform.position = Vector3.zero;
                 pointer.SetActive(false);
             }
             
             laser.transform.localPosition = new Vector3(0f, 0f, dist / 2f);
-            Debug.Log(bHit);
         }
 
         public struct PointerEventArgs

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using Applications.MonitorBoard;
+using Applications.VirtualScreen;
 using Applications.FrontCamera;
 using Vive;
 
@@ -10,19 +10,10 @@ namespace Applications.UI
     public class ButtonController : MonoBehaviour, IEventSystemHandler
     {
         [SerializeField] 
-        private ViveLaserPointer LaserPointer;
+        private ViveLaserPointer LeftLaserPointer;
         
-        [SerializeField] 
-        private Button EnableVirtualScreenButton;
-        
-        [SerializeField] 
-        private Button EnableFrontCameraButton;
-
         [SerializeField]
-        private GameObject Handle; 
-
-        [SerializeField]
-        private Slider SizeChangeBar;
+        private ViveLaserPointer RightLaserPointer;
 
         [SerializeField]
         private ViveProInfo VivePro;
@@ -31,29 +22,66 @@ namespace Applications.UI
 
         private string applicationName = null;
 
+        private bool controllerGetState;
+        private bool controllerGetStateUp;
+        private bool controllerGetStateDown;
+
+        private bool pointerInCollider;
+
+        private float xdelta; //controllerÇÃxï˚å¸ÇÃìÆÇ´ÇÃç∑ï™
+
         private void Start()
         {
-            EnableVirtualScreenButton.onClick.AddListener(EnableVirtualScreen);
-            EnableFrontCameraButton.onClick.AddListener(EnableFrontCamera);
+
         }
 
         private void Update()
         {
-            if (LaserPointer.GetPointerInCollider() && ViveController.InteractRightGetStateDown)
+            if (ViveProInfo.UseLeftHand)
             {
-                Debug.Log(LaserPointer.GetColliderName());
+                controllerGetState = ViveController.InteractLeftGetState;
+                controllerGetStateUp = ViveController.InteractLeftGetStateUp;
+                controllerGetStateDown = ViveController.InteractLeftGetStateDown;
 
+                applicationName = LeftLaserPointer.GetColliderName();
+                pointerInCollider = LeftLaserPointer.GetPointerInCollider();
+                xdelta = VivePro.GetLeftControllerPositionDelta().x;
+            }
+            else
+            {
+                controllerGetState = ViveController.InteractRightGetState;
+                controllerGetStateUp = ViveController.InteractRightGetStateUp;
+                controllerGetStateDown = ViveController.InteractRightGetStateDown;
+
+                applicationName = RightLaserPointer.GetColliderName();
+                pointerInCollider = RightLaserPointer.GetPointerInCollider();
+                xdelta = VivePro.GetRightControllerPositionDelta().x;
+            }
+
+            if (pointerInCollider && controllerGetStateDown)
+            {
                 if (isActive)
                 {
-                    applicationName = LaserPointer.GetColliderName();
-                    
                     switch (applicationName)
                     {
                         case "VirtualScreen":
-                            EnableVirtualScreen();
+                            EnableVirtualScreen.SwitchVirtualScreenState();
                             break;
                         case "FrontCamera":
-                            EnableFrontCamera();
+                            EnableFrontCamera.SwitchFrontCameraState();
+                            break;
+                        case "Settings":
+                            SettingsMenu.Menu();
+                            break;
+                        case "UseHand":
+                            UseHand.SwitchUseHand();
+                            UseHand.SwitchIconName();
+                            break;
+                        case "ScreenFollows":
+                            SettingsMenu.EnableScreenFollows();
+                            break;
+                        case "CursorOperation":
+                            CursorOperation.SwitchCursorOperation();
                             break;
                     }
                     
@@ -66,58 +94,14 @@ namespace Applications.UI
                 isActive = true;
             }
 
-            if (LaserPointer.GetPointerInCollider() && ViveController.InteractRightUIState)
+            if (pointerInCollider && controllerGetState)
             {
-                Debug.Log(LaserPointer.GetColliderName());
-
-                applicationName = LaserPointer.GetColliderName();
-
                 switch (applicationName)
                 {
                     case "Handle":
-                        ExecuteEvents.Execute(Handle.gameObject, new PointerEventData(EventSystem.current), ExecuteEvents.pointerClickHandler);
-                        MoveHandle();
+                        ScreenSizeChanger.SizeChanger(xdelta);
                         break;
                 }
-
-                Debug.Log(applicationName);
-            }
-        }
-
-        public void MoveHandle()
-        {
-            SizeChangeBar.value += VivePro.GetRightControllerPositionDelta().x * 10;
-            MonitorBoardInfo.VirtualScreenScale = new Vector3(SizeChangeBar.value, SizeChangeBar.value * 0.5f, 1.0f);
-
-            //Debug.Log(VivePro.GetRightControllerPositionDelta().x);
-        }
-
-        public void EnableVirtualScreen()
-        {
-            if (!(MonitorBoardInfo.MonitorBoardIsActive))
-            {
-                MonitorBoardInfo.MonitorBoardIsActive = true;
-                return;
-            }
-            else
-            {
-                //MonitorBoard.SetActive(false);
-                MonitorBoardInfo.MonitorBoardIsActive = false;
-                return;
-            }
-        }
-
-        public void EnableFrontCamera()
-        {
-            if (!(FrontCameraInfo.FrontCameraIsActive))
-            {
-                FrontCameraInfo.FrontCameraIsActive = true;
-                return;
-            }
-            else
-            {
-                FrontCameraInfo.FrontCameraIsActive = false;
-                return;
             }
         }
     }

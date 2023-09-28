@@ -53,7 +53,7 @@ namespace Vive
             //Debug.Log("x:" + LeftTrackPadAxisDelta.x + ", y:" + LeftTrackPadAxisDelta.y);
         }
 
-        public static Boolean InteractLeftUIState
+        public static Boolean InteractLeftGetState
         {
             get
             {
@@ -61,7 +61,7 @@ namespace Vive
             }
         }
 
-        public static Boolean InteractRightUIState
+        public static Boolean InteractRightGetState
         {
             get
             {
