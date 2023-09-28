@@ -1,9 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Vive;
+
 using Applications.VirtualScreen;
 using Applications.FrontCamera;
-using Vive;
+using MouseController;
+using EyeTracking;
+using RaySettings;
 
 namespace Applications.UI
 {
@@ -37,6 +41,12 @@ namespace Applications.UI
 
         private void Update()
         {
+            if (MouseCursorOperationInfo.Tracker == MouseVariousTracker.HMDRotation)
+            {
+                applicationName = RayPositionInfo.GetColliderName();
+                SelectButton(RayPositionInfo.PointerInCollider && !(EyeTrackingInfo.LeftOpenness));
+            }
+
             if (ViveProInfo.UseLeftHand)
             {
                 controllerGetState = ViveController.InteractLeftGetState;
@@ -58,7 +68,25 @@ namespace Applications.UI
                 xdelta = VivePro.GetRightControllerPositionDelta().x;
             }
 
-            if (pointerInCollider && controllerGetStateDown)
+            SelectButton(pointerInCollider && controllerGetStateDown);
+
+            //Debug.Log("Select?: " + (RayPositionInfo.PointerInCollider && !(EyeTrackingInfo.LeftOpenness)));
+
+
+            if (pointerInCollider && controllerGetState)
+            {
+                switch (applicationName)
+                {
+                    case "Handle":
+                        ScreenSizeChanger.SizeChanger(xdelta);
+                        break;
+                }
+            }
+        }
+
+        private void SelectButton(bool pressed)
+        {
+            if (pressed)
             {
                 if (isActive)
                 {
@@ -84,7 +112,7 @@ namespace Applications.UI
                             CursorOperation.SwitchCursorOperation();
                             break;
                     }
-                    
+
                     Debug.Log(applicationName);
                     isActive = false;
                 }
@@ -92,16 +120,6 @@ namespace Applications.UI
             else
             {
                 isActive = true;
-            }
-
-            if (pointerInCollider && controllerGetState)
-            {
-                switch (applicationName)
-                {
-                    case "Handle":
-                        ScreenSizeChanger.SizeChanger(xdelta);
-                        break;
-                }
             }
         }
     }

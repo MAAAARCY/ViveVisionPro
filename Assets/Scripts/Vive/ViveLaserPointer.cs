@@ -215,7 +215,7 @@ namespace Vive
                 dist = hit.distance;
 
                 pointerInCollider = true;
-                Debug.Log(pointer.transform.localPosition);
+                //Debug.Log(pointer.transform.localPosition);
             }
 
             if (controllerState)
