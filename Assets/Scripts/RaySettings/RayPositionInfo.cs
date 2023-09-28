@@ -52,8 +52,10 @@ namespace RaySettings
         public event PointerEventHandler PointerClick;
 
         private RaycastHit hit;
+        private static bool pointerInCollider = false;
+        private static string hitColliderName = "None";
+
         private Transform previousContact = null;
-        private bool pointerInCollider = false;
 
         private Queue<float> XParams = new Queue<float>();
         private Queue<float> YParams = new Queue<float>();
@@ -66,12 +68,14 @@ namespace RaySettings
         private float xMean;
         private float yMean;
 
+        private static bool bHit;
+
         private void DetectCollider(Ray raycast)
         {
             float dist = 100f;
 
             //Ray raycast = new Ray(transform.position, transform.forward);
-            bool bHit = Physics.Raycast(raycast, out hit);
+            bHit = Physics.Raycast(raycast, out hit);
 
             if (previousContact && previousContact != hit.transform)
             {
@@ -96,13 +100,14 @@ namespace RaySettings
             if (!bHit)
             {
                 previousContact = null;
+                SphereTransform.position = new Vector3(0, -20f, 0);
             }
             if (bHit && hit.distance < 100f)
             {
                 dist = hit.distance;
+                SphereTransform.position = hit.point;
+                hitColliderName = hit.collider.name;
             }
-
-            //SphereTransform.localPosition = new Vector3(0f, 0f, dist);
         }
 
         public Vector2 GetEyeFocusUVPosition(Ray raycast)
@@ -111,8 +116,8 @@ namespace RaySettings
 
             if (pointerInCollider)
             {
-                Debug.Log("UV_X:" + hit.textureCoord.x + ", UV_Y:" + hit.textureCoord.y);
-
+                //Debug.Log("UV_X:" + hit.textureCoord.x + ", UV_Y:" + hit.textureCoord.y);
+                Debug.Log("EyeFocusPosition: " + hit.point);
                 XParams = MouseCursorPositioning.setCursorPositionsByEyeFocus(XParams, hit, true);
                 YParams = MouseCursorPositioning.setCursorPositionsByEyeFocus(YParams, hit, false);
 
@@ -179,7 +184,7 @@ namespace RaySettings
 
             if (pointerInCollider)
             {
-                Debug.Log("UV_X:" + hit.textureCoord.x + ", UV_Y:" + hit.textureCoord.y);
+                //Debug.Log("UV_X:" + hit.textureCoord.x + ", UV_Y:" + hit.textureCoord.y);
                 return hit.textureCoord;
             }
             else
@@ -208,6 +213,21 @@ namespace RaySettings
             pointerInCollider = false;
             if (PointerOut != null)
                 PointerOut(this, e);
+        }
+
+        public static bool PointerInCollider
+        {
+            get
+            {
+                return pointerInCollider;
+            }
+        }
+
+        public static string GetColliderName()
+        {
+            //hitColliderName = hit.collider.name;
+
+            return hitColliderName;
         }
     }
 

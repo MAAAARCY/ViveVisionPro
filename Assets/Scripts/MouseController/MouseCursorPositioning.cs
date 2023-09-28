@@ -52,7 +52,7 @@ namespace MouseController
             int cursorPositionX = Mathf.RoundToInt(1920f*HMDForwardUVPosition.x);
             int cursorPositionY = Mathf.RoundToInt(1080f*HMDForwardUVPosition.y);
 
-            Debug.Log("cursorX:" + cursorPositionX + ", cursorY:" + cursorPositionY);
+            //Debug.Log("cursorX:" + cursorPositionX + ", cursorY:" + cursorPositionY);
 
             System.Windows.Forms.Cursor.Position = new System.Drawing.Point(cursorPositionX, cursorPositionY);
 

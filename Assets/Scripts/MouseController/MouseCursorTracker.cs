@@ -14,16 +14,16 @@ namespace MouseController
 
         //焦点情報--------------------
         //両目の焦点格納変数
-        //レイの始点と方向（多分③の内容と同じ）
+        //レイの始点と方向
         Ray CombineRay;
         /*レイがどこに焦点を合わせたかの情報．Vector3 point : 視線ベクトルと物体の衝突位置，float distance : 見ている物体までの距離，
            Vector3 normal:見ている物体の面の法線ベクトル，Collider collider : 衝突したオブジェクトのCollider，Rigidbody rigidbody：衝突したオブジェクトのRigidbody，Transform transform：衝突したオブジェクトのTransform*/
         //焦点位置にオブジェクトを出すためにpublicにしています．
         public static FocusInfo CombineFocus;
         //レイの半径
-        //float combineFocusradius;
+        //float combineFocusradius = 1.0f;
         //レイの最大の長さ
-        //float combineFocusmaxDistance;
+        //float combineFocusmaxDistance = 100f;
         //オブジェクトを選択的に無視するために使用されるレイヤー ID
         //int combinefocusableLayer = 0;
         //------------------------------
